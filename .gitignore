@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# payload media uploads
+/media
+
+# claude local config
+.claude/
+
+# payload generated
+src/payload-types.ts
+src/app/(payload)/admin/importMap.js
