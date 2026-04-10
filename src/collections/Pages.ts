@@ -1,5 +1,5 @@
 import type { CollectionConfig } from "payload";
-import { allBlocks } from "../blocks/index.ts";
+import { allBlocks } from "../blocks";
 
 export const Pages: CollectionConfig = {
   slug: "pages",

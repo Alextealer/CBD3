@@ -5,14 +5,14 @@ import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import sharp from "sharp";
 
-import { Users } from "./collections/Users.ts";
-import { Media } from "./collections/Media.ts";
-import { Categories } from "./collections/Categories.ts";
-import { Products } from "./collections/Products.ts";
-import { Tags } from "./collections/Tags.ts";
-import { Pages } from "./collections/Pages.ts";
-import { Navigation } from "./collections/Navigation.ts";
-import { SiteSettings } from "./globals/SiteSettings.ts";
+import { Users } from "./collections/Users";
+import { Media } from "./collections/Media";
+import { Categories } from "./collections/Categories";
+import { Products } from "./collections/Products";
+import { Tags } from "./collections/Tags";
+import { Pages } from "./collections/Pages";
+import { Navigation } from "./collections/Navigation";
+import { SiteSettings } from "./globals/SiteSettings";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
