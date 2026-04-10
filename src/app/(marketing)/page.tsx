@@ -322,7 +322,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ==================== CERTIFICATIONS CAROUSEL ==================== */}
+      {/* ==================== BRAND LOGOS CAROUSEL ==================== */}
       <section className="py-12 overflow-hidden">
         <div className="relative">
           {/* Fade edges */}
@@ -330,98 +330,30 @@ export default function HomePage() {
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
 
           {/* Scrolling track */}
-          <div className="flex animate-scroll gap-16 items-center w-max">
+          <div className="flex animate-scroll gap-20 items-center w-max">
             {[...Array(2)].map((_, setIndex) => (
-              <div key={setIndex} className="flex gap-16 items-center shrink-0">
-                {/* Tealer Lab */}
-                <div className="flex flex-col items-center shrink-0">
-                  <div className="flex flex-col items-center leading-none">
-                    <span className="text-[28px] font-black tracking-[-0.02em] text-[#1a1a1a]">TEALER</span>
-                    <span className="text-[28px] font-black tracking-[-0.02em] text-[#1a1a1a]">LAB<sup className="text-[10px] font-bold align-super ml-0.5">&reg;</sup></span>
+              <div key={setIndex} className="flex gap-20 items-center shrink-0">
+                {[
+                  { src: "/brands/0x0-1.png", alt: "Happy Hemper", h: "h-16" },
+                  { src: "/brands/0x0.png", alt: "CannaBuben Noids", h: "h-10" },
+                  { src: "/brands/3e6e8e566b26fa30194a2b89a0cf00ae.webp", alt: "Buds Kings", h: "h-16" },
+                  { src: "/brands/high-markets.webp", alt: "High Markets", h: "h-12" },
+                  { src: "/brands/image-cbd-barato-shop.png", alt: "CBD Barato Shop", h: "h-14" },
+                  { src: "/brands/LogoCBDDBleu.svg", alt: "CBDD", h: "h-14" },
+                  { src: "/brands/logo.webp", alt: "The Swiss Hemp", h: "h-12" },
+                  { src: "/brands/okiweed-cbd-logo.jpg", alt: "Okiweed", h: "h-16" },
+                  { src: "/brands/cbd-pas-chere-logo-1706536216.webp", alt: "Weed Side Story", h: "h-10" },
+                  { src: "/brands/codepromo-cbdpaschere.webp", alt: "CBD Pas Chere", h: "h-14" },
+                  { src: "/brands/gempages_580385743113814788-7b9636f9-8ff0-4035-af22-607af3b7fb54.webp", alt: "Private CBD Shop", h: "h-10" },
+                ].map((logo, i) => (
+                  <div key={i} className="shrink-0 flex items-center justify-center">
+                    <img
+                      src={logo.src}
+                      alt={logo.alt}
+                      className={`${logo.h} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0`}
+                    />
                   </div>
-                </div>
-
-                {/* CBD Pas Chere */}
-                <div className="flex flex-col items-center shrink-0">
-                  <div className="flex items-baseline leading-none">
-                    <span className="text-[36px] font-black tracking-[-0.02em] text-[#4BC8A4]">CBD</span>
-                  </div>
-                  <div className="flex items-baseline leading-none -mt-1">
-                    <span className="text-[14px] font-black tracking-[0.05em] text-[#1a1a1a]">PAS CHERE</span>
-                    <span className="text-[12px] font-bold text-[#4BC8A4]">.COM</span>
-                  </div>
-                </div>
-
-                {/* Stormrock */}
-                <div className="flex flex-col items-center shrink-0">
-                  <span className="text-[28px] font-black italic tracking-[-0.02em] text-[#1a1a1a]">STORMROCK</span>
-                </div>
-
-                {/* CBD Purple */}
-                <div className="flex flex-col items-center shrink-0">
-                  <span className="text-[24px] font-bold tracking-[-0.01em] text-[#8B1A8B]">CBD</span>
-                  <span className="text-[18px] font-bold tracking-[0.25em] text-[#2D1B4E] -mt-1">PURPLE</span>
-                  <div className="w-16 h-[1px] bg-[#8B1A8B] mt-1" />
-                  <span className="text-[10px] font-semibold text-[#cc0000] mt-1">Swiss made <span className="text-[9px]">&#x2795;</span></span>
-                </div>
-
-                {/* EU Compliant */}
-                <div className="flex flex-col items-center gap-1 shrink-0">
-                  <svg className="h-12 w-16 text-[#9ca3af]" viewBox="0 0 64 48" fill="currentColor">
-                    <text x="0" y="36" className="text-[32px] font-black" style={{ fontFamily: 'Inter, sans-serif' }}>EU</text>
-                  </svg>
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#9ca3af]">Conforme</span>
-                </div>
-
-                {/* ISO 17025 */}
-                <div className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full border-2 border-[#9ca3af] flex items-center justify-center">
-                    <span className="text-[10px] font-bold text-[#9ca3af] text-center leading-tight">ISO<br />17025</span>
-                  </div>
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#9ca3af]">Labo certifie</span>
-                </div>
-
-                {/* THC < 0.3% */}
-                <div className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full border-2 border-[#9ca3af] flex items-center justify-center">
-                    <svg className="h-6 w-6 text-[#9ca3af]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#9ca3af]">THC &lt; 0.3%</span>
-                </div>
-
-                {/* Bio EU */}
-                <div className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full border-2 border-[#9ca3af] flex items-center justify-center">
-                    <Leaf className="h-6 w-6 text-[#9ca3af]" />
-                  </div>
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#9ca3af]">Chanvre Bio</span>
-                </div>
-
-                {/* COA */}
-                <div className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full border-2 border-[#9ca3af] flex items-center justify-center">
-                    <FileCheck className="h-6 w-6 text-[#9ca3af]" />
-                  </div>
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#9ca3af]">COA par lot</span>
-                </div>
-
-                {/* Sans Pesticides */}
-                <div className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full border-2 border-[#9ca3af] flex items-center justify-center">
-                    <ShieldCheck className="h-6 w-6 text-[#9ca3af]" />
-                  </div>
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#9ca3af]">Sans pesticides</span>
-                </div>
-
-                {/* DGCCRF */}
-                <div className="flex flex-col items-center gap-1 shrink-0">
-                  <svg className="h-12 w-24 text-[#9ca3af]" viewBox="0 0 96 48" fill="currentColor">
-                    <text x="0" y="32" className="text-[18px] font-bold" style={{ fontFamily: 'Inter, sans-serif' }}>DGCCRF</text>
-                  </svg>
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#9ca3af]">Conforme</span>
-                </div>
+                ))}
               </div>
             ))}
           </div>
