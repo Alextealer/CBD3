@@ -1,9 +1,13 @@
 import path from "path";
+import dns from "dns";
 import { fileURLToPath } from "url";
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import sharp from "sharp";
+
+// Force IPv4 resolution for Supabase (Vercel serverless doesn't support IPv6)
+dns.setDefaultResultOrder("ipv4first");
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
