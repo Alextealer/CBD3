@@ -1,14 +1,9 @@
 import path from "path";
-import dns from "dns";
-import net from "net";
 import { fileURLToPath } from "url";
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import sharp from "sharp";
-
-// Force IPv4 DNS resolution globally
-dns.setDefaultResultOrder("ipv4first");
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
@@ -50,11 +45,6 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || "",
-      // Force IPv4 resolution — Supabase only returns AAAA (IPv6) records
-      // and Vercel serverless doesn't support IPv6.
-      lookup: ((hostname: string, opts: any, cb: any) => {
-        dns.lookup(hostname, { family: 4 }, cb);
-      }) as any,
     },
   }),
   sharp,
