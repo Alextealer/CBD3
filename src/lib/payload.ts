@@ -2,20 +2,8 @@
 /**
  * Helpers to fetch data from Payload CMS with fallback to hardcoded defaults
  */
-import dns from "dns";
-import net from "net";
 import { getPayload } from "payload";
 import config from "../payload.config";
-
-// Force IPv4 — Supabase only has AAAA records, Vercel doesn't support IPv6
-dns.setDefaultResultOrder("ipv4first");
-const _origConnect = net.Socket.prototype.connect;
-net.Socket.prototype.connect = function (options: any, ...args: any[]) {
-  if (typeof options === "object" && options.host && !options.family) {
-    options.family = 4;
-  }
-  return _origConnect.call(this, options, ...args);
-} as any;
 
 // Cache the payload instance across requests
 let cached: any = null;
