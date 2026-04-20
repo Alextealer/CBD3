@@ -321,17 +321,12 @@ export default function MarqueBlanchePage() {
 
             {/* Right — visual composition */}
             <div className="relative hidden lg:block overflow-hidden">
-              {/* Background gradient blob */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#f5edd8] to-[#ede4cc]" />
-
-              {/* Main product — doypack pouch image */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <img
-                  src="/products/doypack-pouch.avif"
-                  alt="Pochon CBD marque blanche"
-                  className="w-52 h-auto object-contain drop-shadow-2xl"
-                />
-              </div>
+              {/* Background — real pouches image */}
+              <img
+                src="/products/pouches-bg.avif"
+                alt="Pochons CBD premium marque blanche"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
 
               {/* Smaller product — left */}
               <div className="absolute bottom-12 left-8">
