@@ -324,21 +324,13 @@ export default function MarqueBlanchePage() {
               {/* Background gradient blob */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#f5edd8] to-[#ede4cc]" />
 
-              {/* Main product — large bottle */}
+              {/* Main product — doypack pouch image */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="relative">
-                  <div className="w-14 h-8 bg-[#2a2a2a] rounded-t-lg mx-auto shadow-md" />
-                  <div className="w-36 h-56 bg-gradient-to-b from-amber-100 via-amber-200 to-amber-400 rounded-b-2xl mx-auto shadow-2xl">
-                    <div className="absolute top-14 left-1/2 -translate-x-1/2 w-24 h-28 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center p-3">
-                      <span className="text-[8px] font-semibold text-[#9ca3af] tracking-wider uppercase">Votre Marque</span>
-                      <div className="w-10 h-[1px] bg-[#d4d4d8] my-1.5" />
-                      <span className="text-[16px] font-bold tracking-tight leading-none">CBD</span>
-                      <span className="text-[16px] font-bold tracking-tight leading-none">OIL</span>
-                      <div className="w-10 h-[1px] bg-[#d4d4d8] my-1.5" />
-                      <span className="text-[7px] text-[#9ca3af] font-medium">10% &middot; 10ml</span>
-                    </div>
-                  </div>
-                </div>
+                <img
+                  src="/products/doypack-pouch.avif"
+                  alt="Pochon CBD marque blanche"
+                  className="w-52 h-auto object-contain drop-shadow-2xl"
+                />
               </div>
 
               {/* Smaller product — left */}
