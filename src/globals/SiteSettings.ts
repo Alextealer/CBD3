@@ -14,7 +14,7 @@ export const SiteSettings: GlobalConfig = {
       name: "siteName",
       type: "text",
       required: true,
-      defaultValue: "CBD3",
+      defaultValue: "Unsigned",
     },
     {
       name: "tagline",

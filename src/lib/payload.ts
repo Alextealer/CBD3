@@ -145,3 +145,20 @@ export async function getPageBySlug(slug: string) {
     null,
   );
 }
+
+// ============================================================================
+// HOME / INCUBATOR CONTENT GLOBALS
+// ============================================================================
+export async function getHomeContent() {
+  return safeFetch(
+    async (payload) => await payload.findGlobal({ slug: "home-content" }),
+    null,
+  );
+}
+
+export async function getIncubatorContent() {
+  return safeFetch(
+    async (payload) => await payload.findGlobal({ slug: "incubator-content" }),
+    null,
+  );
+}

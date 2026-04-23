@@ -14,7 +14,7 @@ export default function PrivacyPage() {
           <p>Derniere mise a jour : Avril 2026</p>
 
           <h2 className="text-xl font-semibold text-foreground">1. Responsable du traitement</h2>
-          <p>CBD3, SAS au capital de XX XXX euros, dont le siege social est situe a Paris, France, est responsable du traitement des donnees personnelles collectees sur la plateforme cbd3.fr.</p>
+          <p>Unsigned, SAS au capital de XX XXX euros, dont le siege social est situe a Paris, France, est responsable du traitement des donnees personnelles collectees sur la plateforme unsigned.fr.</p>
 
           <h2 className="text-xl font-semibold text-foreground">2. Donnees collectees</h2>
           <p>Nous collectons les donnees suivantes : nom, prenom, adresse email, adresse postale, numero de telephone, informations de paiement (traitees par Stripe), donnees de navigation et cookies.</p>
@@ -26,10 +26,10 @@ export default function PrivacyPage() {
           <p>Le traitement de vos donnees est fonde sur l&apos;execution d&apos;un contrat, votre consentement, notre interet legitime ou une obligation legale, conformement au RGPD.</p>
 
           <h2 className="text-xl font-semibold text-foreground">5. Duree de conservation</h2>
-          <p>Vos donnees sont conservees pendant la duree de votre relation commerciale avec CBD3, puis archivees pendant les durees legales applicables (5 ans pour les donnees comptables, 3 ans pour les donnees de prospection).</p>
+          <p>Vos donnees sont conservees pendant la duree de votre relation commerciale avec Unsigned, puis archivees pendant les durees legales applicables (5 ans pour les donnees comptables, 3 ans pour les donnees de prospection).</p>
 
           <h2 className="text-xl font-semibold text-foreground">6. Vos droits</h2>
-          <p>Conformement au RGPD, vous disposez d&apos;un droit d&apos;acces, de rectification, de suppression, de portabilite, de limitation et d&apos;opposition au traitement de vos donnees. Pour exercer ces droits, contactez-nous a : privacy@cbd3.fr.</p>
+          <p>Conformement au RGPD, vous disposez d&apos;un droit d&apos;acces, de rectification, de suppression, de portabilite, de limitation et d&apos;opposition au traitement de vos donnees. Pour exercer ces droits, contactez-nous a : privacy@unsigned.fr.</p>
 
           <h2 className="text-xl font-semibold text-foreground">7. Cookies</h2>
           <p>Notre site utilise des cookies pour ameliorer votre experience de navigation. Vous pouvez gerer vos preferences de cookies a tout moment via le bandeau de consentement.</p>

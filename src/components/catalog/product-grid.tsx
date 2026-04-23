@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, SlidersHorizontal, Leaf, X } from "lucide-react";
+import { ProductImage } from "./product-image";
 
 export interface Product {
   name: string;
@@ -18,17 +19,29 @@ export interface Product {
   concern?: string;
   ingredients?: string[];
   packaging?: string;
+  image?: string;
 }
 
 interface ProductGridProps {
   products: Product[];
   categoryName: string;
   categoryDescription: string;
+  categorySlug?: string;
 }
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
-export function ProductGrid({ products, categoryName, categoryDescription }: ProductGridProps) {
+// Match slugify() in src/data/products.ts
+function slugify(str: string): string {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+export function ProductGrid({ products, categoryName, categoryDescription, categorySlug }: ProductGridProps) {
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
   const [openFilter, setOpenFilter] = useState<string | null>(null);
   const [sort, setSort] = useState<SortOption>("default");
@@ -255,22 +268,22 @@ export function ProductGrid({ products, categoryName, categoryDescription }: Pro
                     </div>
                   </div>
                 )}
-                <div className="group cursor-pointer">
-                  <div className="relative aspect-square bg-[#f2f2f3] rounded-2xl overflow-hidden mb-3">
+                <Link
+                  href={categorySlug ? `/catalog/${categorySlug}/${slugify(product.name)}` : "#"}
+                  className="group cursor-pointer block"
+                >
+                  <div className="relative mb-3">
                     {product.badge && (
                       <span className={`absolute top-3 left-3 z-10 text-[11px] font-semibold px-2.5 py-1 rounded-full ${product.badge === "Nouveau" ? "bg-[#e8f5e9] text-green-800" : "bg-amber-100 text-amber-800"}`}>
                         {product.badge}
                       </span>
                     )}
-                    <div className="absolute inset-0 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                      <div className="relative">
-                        <div className="w-12 h-20 bg-white/80 rounded-lg shadow-sm mx-auto" />
-                        <div className="w-6 h-3 bg-white/60 rounded-t-sm mx-auto -mt-0.5" />
-                        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-10 bg-white rounded-sm flex items-center justify-center">
-                          <span className="text-[5px] font-bold text-center leading-tight text-muted-foreground">Votre<br />Marque</span>
-                        </div>
-                      </div>
-                    </div>
+                    <ProductImage
+                      src={product.image}
+                      alt={product.name}
+                      variant="card"
+                      imgClassName="group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                   <div className="flex flex-wrap gap-1.5 mb-2">
                     {product.tags.map((tag) => (
@@ -278,9 +291,9 @@ export function ProductGrid({ products, categoryName, categoryDescription }: Pro
                     ))}
                   </div>
                   <p className="text-[12px] text-[#4d4f56] mb-1">{product.volume}{product.variants ? ` · ${product.variants} Variantes` : ""}</p>
-                  <h3 className="text-[14px] font-medium leading-tight mb-1.5">{product.name}</h3>
+                  <h3 className="text-[14px] font-medium leading-tight mb-1.5 group-hover:underline">{product.name}</h3>
                   <p className="text-[14px] font-semibold">{fmtPrice(product.price)}EUR <span className="text-[12px] font-normal text-[#4d4f56]">{showVAT ? "TTC" : "HT"}</span></p>
-                </div>
+                </Link>
               </React.Fragment>
             ))}
           </div>

@@ -15,6 +15,7 @@ import {
   Globe,
   Zap,
   Store,
+  ShoppingCart,
 } from "lucide-react";
 import { ProfitCalculator } from "@/components/marketing/profit-calculator";
 
@@ -38,7 +39,7 @@ const plans = [
       { text: "50+ produits CBD", included: true },
       { text: "Design etiquettes personnalise", included: true },
       { text: "Livraison directe (dropshipping)", included: true },
-      { text: "Coffrets echantillons", included: true },
+      { text: "Edibles & echantillons", included: true },
       { text: "Generateur de mockups", included: true },
       { text: "Remises volume", included: true },
       { text: "COA par lot inclus", included: true },
@@ -82,9 +83,9 @@ const steps = [
     number: "01",
     title: "Testez les produits",
     description:
-      "Decouvrez des produits CBD certifies et durables dans notre selection. Commencez par commander des coffrets echantillons pour tester. Recevez vos produits sous 7 jours ouvres.",
+      "Decouvrez des produits CBD certifies et durables dans notre selection. Commencez par commander des echantillons pour tester. Recevez vos produits sous 7 jours ouvres.",
     links: [
-      { label: "Coffrets echantillons", href: "/catalog/coffrets" },
+      { label: "Voir le catalogue", href: "/catalog" },
     ],
   },
   {
@@ -94,8 +95,8 @@ const steps = [
       "Designez votre propre packaging pour les produits CBD que vous souhaitez vendre depuis notre catalogue. Ou utilisez notre service design pour obtenir des creations personnalisees.",
     links: [
       { label: "Huiles CBD", href: "/catalog/huiles-cbd" },
-      { label: "Fleurs CBD", href: "/catalog/fleurs-cbd" },
-      { label: "Cosmetiques CBD", href: "/catalog/cosmetiques-cbd" },
+      { label: "Fleur CBD", href: "/catalog/fleur-cbd" },
+      { label: "Cosmetique CBD", href: "/catalog/cosmetique-cbd" },
       { label: "Catalogue complet", href: "/catalog" },
     ],
   },
@@ -142,7 +143,7 @@ const complianceCards = [
   {
     icon: FileCheck,
     title: "Tous les produits avec COA",
-    description: "CBD3 fournit un Certificat d'Analyse (COA) par lot, delivre par un laboratoire accredite ISO 17025.",
+    description: "Unsigned fournit un Certificat d'Analyse (COA) par lot, delivre par un laboratoire accredite ISO 17025.",
   },
   {
     icon: ShieldCheck,
@@ -169,34 +170,105 @@ export default function HowItWorksPage() {
   return (
     <>
       {/* ==================== HERO ==================== */}
-      <section className="pt-16 pb-20 lg:pt-24 lg:pb-28">
+      <section className="pt-12 pb-16 lg:pt-20 lg:pb-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
-          <div className="max-w-[620px]">
-            <h1 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1]">
-              Comment lancer votre marque CBD avec CBD3 ?
-            </h1>
-            <p className="mt-6 text-[16px] font-medium text-[#4d4f56] leading-[1.6] max-w-[540px]">
-              Concentrez-vous sur votre marque et votre marketing. Nous gerons
-              la production, le packaging et l&apos;expedition, pour vous permettre de
-              developper votre activite avec des produits CBD certifies.
-            </p>
-            <div className="mt-10 flex items-center gap-4">
-              <Link href="/profile">
-                <Button className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px]">
-                  Commencer
-                </Button>
-              </Link>
-              <button className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px] border-2 border-foreground flex items-center gap-2 hover:bg-muted transition-colors">
-                <Play className="h-4 w-4 fill-current" />
-                Comment ca marche
-              </button>
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* LEFT — text */}
+            <div>
+              <h1 className="text-[48px] lg:text-[56px] font-semibold tracking-[-0.04em] leading-[1.05]">
+                Comment lancer votre marque CBD avec Unsigned ?
+              </h1>
+              <p className="mt-6 text-[15px] font-medium text-[#4d4f56] leading-[1.65] max-w-[540px]">
+                Concentrez-vous sur votre branding et votre marketing pendant que
+                nous gerons la production, le packaging et l&apos;expedition, pour vous
+                permettre de developper votre marque avec des produits CBD certifies
+                fabriques en UE.
+              </p>
+              <div className="mt-10 flex items-center gap-3 flex-wrap">
+                <Link href="/profile">
+                  <Button className="rounded-full px-7 text-[12px] font-bold uppercase tracking-[0.04em] h-[56px]">
+                    Commencer
+                  </Button>
+                </Link>
+                <a
+                  href="#how-it-works-steps"
+                  className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.04em] h-[56px] border-2 border-foreground flex items-center gap-2 hover:bg-muted transition-colors"
+                >
+                  <Play className="h-3.5 w-3.5 fill-current" />
+                  Comment ca marche
+                </a>
+              </div>
+            </div>
+
+            {/* RIGHT — visual with overlays */}
+            <div className="relative">
+              <div className="relative aspect-square max-w-[560px] ml-auto rounded-[2rem] overflow-hidden bg-gradient-to-br from-stone-100 to-stone-200">
+                {/* Brick / studio scene placeholder */}
+                <div className="absolute inset-0">
+                  <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200 to-stone-300" />
+                  {/* Brick pattern */}
+                  <div
+                    className="absolute inset-0 opacity-30"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(90deg, transparent 0 48%, rgba(0,0,0,.08) 48% 50%, transparent 50% 98%, rgba(0,0,0,.08) 98% 100%), linear-gradient(0deg, transparent 0 calc(50% - 1px), rgba(0,0,0,.08) calc(50% - 1px) 50%, transparent 50%)",
+                      backgroundSize: "120px 40px",
+                    }}
+                  />
+                </div>
+
+                {/* Person silhouette */}
+                <div className="absolute bottom-0 left-1/2 -translate-x-[45%] w-[70%] h-[78%]">
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[85%] h-[60%] bg-gradient-to-t from-stone-700 to-stone-500 rounded-t-[40%]" />
+                  <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-[42%] h-[32%] bg-gradient-to-b from-stone-300 to-stone-400 rounded-full" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[46%] h-[18%] bg-[#2a2a2a] rounded-t-[40%]" />
+                </div>
+
+                {/* Floating card — bottle sample */}
+                <div className="absolute bottom-12 left-6 w-[140px] rounded-[1.25rem] bg-white p-3 shadow-xl ring-2 ring-[#6c3fee]">
+                  <div className="absolute -top-2 -left-2 w-7 h-7 rounded-full bg-[#6c3fee] flex items-center justify-center shadow-md">
+                    <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
+                  </div>
+                  <div className="aspect-square bg-[#f5f5f5] rounded-xl flex items-center justify-center">
+                    <div className="relative">
+                      <div className="w-10 h-6 bg-[#2a2a2a] rounded-t-md mx-auto" />
+                      <div className="w-16 h-28 bg-gradient-to-b from-emerald-900 to-emerald-950 rounded-b-lg -mt-0.5 flex flex-col items-center pt-3">
+                        <div className="w-10 h-14 bg-white rounded-sm flex items-center justify-center px-1">
+                          <div className="text-center">
+                            <p className="text-[6px] font-bold tracking-wider leading-tight">
+                              Votre
+                              <br />
+                              Marque
+                            </p>
+                            <div className="w-5 h-[1px] bg-[#9ca3af] mx-auto my-1" />
+                            <p className="text-[5px] text-[#9ca3af]">10% CBD</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating card — Your Store */}
+                <div className="absolute top-10 right-6 w-[130px] rounded-[1.25rem] bg-white p-4 shadow-xl">
+                  <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[#6c3fee] flex items-center justify-center shadow-md">
+                    <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
+                  </div>
+                  <div className="w-full aspect-square bg-[#faf9ff] rounded-xl flex flex-col items-center justify-center gap-1.5">
+                    <ShoppingCart className="h-7 w-7 text-[#6c3fee]" strokeWidth={1.75} />
+                  </div>
+                  <p className="text-center text-[12px] font-semibold text-[#6c3fee] mt-2">
+                    Votre Boutique
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ==================== WHAT IS INCLUDED ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Qu&apos;est-ce qui est inclus ?
@@ -241,7 +313,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* ==================== BUILD YOUR BRAND — 3 STEPS ==================== */}
-      <section className="py-24">
+      <section id="how-it-works-steps" className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-4">
             Construisez votre propre marque CBD
@@ -443,7 +515,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* ==================== DESIGN ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Prenez le controle total de votre design
@@ -511,23 +583,23 @@ export default function HowItWorksPage() {
       </section>
 
       {/* ==================== PROFIT CALCULATOR ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
-            Comment gagner de l&apos;argent avec CBD3 ?
+            Comment gagner de l&apos;argent avec Unsigned ?
           </h2>
         </div>
         <ProfitCalculator />
       </section>
 
       {/* ==================== CTA ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1]">
             Pret a lancer votre marque CBD ?
           </h2>
           <p className="mt-4 text-[16px] font-medium text-[#4d4f56] max-w-xl mx-auto leading-[1.6]">
-            Rejoignez 200+ entrepreneurs qui ont lance leur marque CBD avec CBD3.
+            Rejoignez 200+ entrepreneurs qui ont lance leur marque CBD avec Unsigned.
           </p>
           <div className="mt-10 flex justify-center gap-4">
             <Link href="/profile">

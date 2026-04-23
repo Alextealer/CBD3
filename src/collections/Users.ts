@@ -7,6 +7,30 @@ export const Users: CollectionConfig = {
     defaultColumns: ["email", "role"],
   },
   auth: true,
+  access: {
+    // Anyone authenticated can read their own profile; admins read all.
+    read: ({ req: { user } }) => Boolean(user),
+    // Only admins can create/update/delete users from the panel.
+    create: ({ req: { user } }) => user?.role === "admin",
+    update: ({ req: { user } }) => user?.role === "admin",
+    delete: ({ req: { user } }) => user?.role === "admin",
+    // Admin panel access: admin OR brand. Customers stay on the public site.
+    admin: ({ req: { user } }) => user?.role === "admin" || user?.role === "brand",
+  },
+  hooks: {
+    beforeChange: [
+      async ({ data, operation, req }) => {
+        // Force the very first user created to be an admin so /admin is reachable.
+        if (operation === "create") {
+          const existing = await req.payload.count({ collection: "users" });
+          if (existing.totalDocs === 0) {
+            return { ...data, role: "admin" };
+          }
+        }
+        return data;
+      },
+    ],
+  },
   fields: [
     {
       name: "role",
@@ -19,13 +43,7 @@ export const Users: CollectionConfig = {
         { label: "Customer", value: "customer" },
       ],
     },
-    {
-      name: "firstName",
-      type: "text",
-    },
-    {
-      name: "lastName",
-      type: "text",
-    },
+    { name: "firstName", type: "text" },
+    { name: "lastName", type: "text" },
   ],
 };

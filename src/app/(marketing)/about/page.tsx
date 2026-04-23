@@ -47,7 +47,7 @@ export default function AboutPage() {
               Nous democratisons la creation de marques CBD
             </h1>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              CBD3 est ne d&apos;une conviction : chaque entrepreneur devrait
+              Unsigned est ne d&apos;une conviction : chaque entrepreneur devrait
               pouvoir lancer sa marque CBD sans les contraintes de la
               production, du stockage et de la conformite reglementaire.
             </p>
@@ -83,7 +83,7 @@ export default function AboutPage() {
                   logistique...
                 </p>
                 <p>
-                  CBD3 simplifie tout. Nous offrons une plateforme complete de
+                  Unsigned simplifie tout. Nous offrons une plateforme complete de
                   marque blanche CBD qui permet a n&apos;importe quel entrepreneur
                   de creer, personnaliser et vendre des produits CBD premium
                   sous sa propre marque.
@@ -142,7 +142,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium">Email</p>
-                    <p className="text-sm text-muted-foreground">contact@cbd3.fr</p>
+                    <p className="text-sm text-muted-foreground">contact@unsigned.fr</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">

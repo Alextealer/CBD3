@@ -24,6 +24,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ProfitCalculator } from "@/components/marketing/profit-calculator";
+import { getHomeContent } from "@/lib/payload";
 
 const features = [
   { icon: Check, text: "50+ produits CBD premium" },
@@ -33,34 +34,52 @@ const features = [
 
 const categories = [
   {
+    name: "Fleur CBD",
+    href: "/catalog/fleur-cbd",
+    image: "/images/placeholder-flower.jpg",
+    description: "Indoor, outdoor, greenhouse",
+  },
+  {
+    name: "Hash CBD",
+    href: "/catalog/hash-cbd",
+    image: "/images/placeholder-hash.jpg",
+    description: "Hash, pollen, moonrock",
+  },
+  {
+    name: "Pre roll CBD",
+    href: "/catalog/pre-roll-cbd",
+    image: "/images/placeholder-preroll.jpg",
+    description: "Joints prets a fumer",
+  },
+  {
     name: "Huiles CBD",
     href: "/catalog/huiles-cbd",
     image: "/images/placeholder-oil.jpg",
     description: "Sublinguales & MCT",
   },
   {
-    name: "Fleurs CBD",
-    href: "/catalog/fleurs-cbd",
-    image: "/images/placeholder-flower.jpg",
-    description: "Indoor, outdoor, greenhouse",
+    name: "Extractions CBD",
+    href: "/catalog/extractions-cbd",
+    image: "/images/placeholder-extraction.jpg",
+    description: "Wax, shatter, live resin",
   },
   {
-    name: "Cosmetiques CBD",
-    href: "/catalog/cosmetiques-cbd",
+    name: "Cartridges CBD",
+    href: "/catalog/cartridges-cbd",
+    image: "/images/placeholder-cartridge.jpg",
+    description: "Vape pen 510 & disposable",
+  },
+  {
+    name: "Edibles CBD",
+    href: "/catalog/edibles-cbd",
+    image: "/images/placeholder-edible.jpg",
+    description: "Gummies, chocolat, infusions",
+  },
+  {
+    name: "Cosmetique CBD",
+    href: "/catalog/cosmetique-cbd",
     image: "/images/placeholder-cosmetic.jpg",
     description: "Cremes, baumes, serums",
-  },
-  {
-    name: "Infusions CBD",
-    href: "/catalog/infusions-cbd",
-    image: "/images/placeholder-tea.jpg",
-    description: "Tisanes au chanvre",
-  },
-  {
-    name: "Coffrets",
-    href: "/catalog/coffrets",
-    image: "/images/placeholder-box.jpg",
-    description: "Coffrets decouverte",
   },
 ];
 
@@ -69,7 +88,7 @@ const steps = [
     icon: Package,
     title: "Choisissez vos produits",
     description:
-      "Parcourez notre catalogue de 50+ produits CBD premium. Huiles, fleurs, cosmetiques, infusions — tout est pret a personnaliser.",
+      "Parcourez notre catalogue de 50+ produits CBD premium. Fleur, hash, pre roll, huiles, extractions, cartridges, edibles, cosmetique — tout est pret a personnaliser.",
   },
   {
     icon: Palette,
@@ -98,13 +117,13 @@ const testimonials = [
   {
     name: "Marie L.",
     role: "Fondatrice, Bloom CBD",
-    text: "J'ai lance ma marque CBD en 2 semaines grace a CBD3. Le design studio est incroyable et la qualite des produits est irreprochable.",
+    text: "J'ai lance ma marque CBD en 2 semaines grace a Unsigned. Le design studio est incroyable et la qualite des produits est irreprochable.",
     rating: 5,
   },
   {
     name: "Thomas R.",
     role: "E-commercant",
-    text: "Le concept de marque blanche CBD est revolutionnaire. Plus besoin de gerer le stock ou la conformite, CBD3 s'occupe de tout.",
+    text: "Le concept de marque blanche CBD est revolutionnaire. Plus besoin de gerer le stock ou la conformite, Unsigned s'occupe de tout.",
     rating: 5,
   },
   {
@@ -117,8 +136,8 @@ const testimonials = [
 
 const faqs = [
   {
-    q: "Qu'est-ce que CBD3 et comment ca fonctionne ?",
-    a: "CBD3 est une plateforme de marque blanche CBD. Vous choisissez vos produits dans notre catalogue, personnalisez le design avec votre marque, et nous gerons la production, le stockage et l'expedition. Vous vendez sous votre propre marque sans gerer de stock.",
+    q: "Qu'est-ce que Unsigned et comment ca fonctionne ?",
+    a: "Unsigned est une plateforme de marque blanche CBD. Vous choisissez vos produits dans notre catalogue, personnalisez le design avec votre marque, et nous gerons la production, le stockage et l'expedition. Vous vendez sous votre propre marque sans gerer de stock.",
   },
   {
     q: "Puis-je personnaliser le packaging des produits ?",
@@ -134,15 +153,44 @@ const faqs = [
   },
   {
     q: "Puis-je commander des echantillons ?",
-    a: "Oui, nous proposons des coffrets echantillons pour que vous puissiez tester la qualite avant de lancer votre marque. C'est la meilleure facon de valider vos choix produits.",
+    a: "Oui, nous proposons des echantillons pour que vous puissiez tester la qualite avant de lancer votre marque. C'est la meilleure facon de valider vos choix produits.",
   },
   {
     q: "Comment integrer ma boutique en ligne ?",
-    a: "CBD3 s'integre avec Shopify, WooCommerce et toute boutique via notre API. Les commandes sont synchronisees automatiquement et expediees sous 48h.",
+    a: "Unsigned s'integre avec Shopify, WooCommerce et toute boutique via notre API. Les commandes sont synchronisees automatiquement et expediees sous 48h.",
   },
 ];
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const cms = (await getHomeContent()) as Record<string, any> | null;
+  const hc = cms ?? {};
+  const heroCMS = hc.hero ?? {};
+  const teaserCMS = hc.signedLabelTeaser ?? {};
+  const logisticsCMS = hc.logistics ?? {};
+  const finalCtaCMS = hc.finalCta ?? {};
+
+  const cmsFeatures =
+    Array.isArray(heroCMS.features) && heroCMS.features.length > 0
+      ? heroCMS.features.map((f: { text: string }) => ({ icon: Check, text: f.text }))
+      : features;
+
+  const cmsUsefulLinks =
+    Array.isArray(logisticsCMS.usefulLinks) && logisticsCMS.usefulLinks.length > 0
+      ? logisticsCMS.usefulLinks
+      : [
+          { label: "Comment ca marche", href: "/how-it-works" },
+          { label: "Expedition & logistique", href: "/fulfillment-shipping" },
+          { label: "Livraison & retours", href: "/legal/shipping" },
+          { label: "Integrations", href: "/integrations" },
+          { label: "FAQ", href: "/faq" },
+          { label: "Conformite", href: "/how-it-works#compliance" },
+        ];
+
+  const cmsFaqs =
+    Array.isArray(hc.faqs) && hc.faqs.length > 0 ? hc.faqs : faqs;
+
   return (
     <>
       {/* ==================== HERO ==================== */}
@@ -152,17 +200,19 @@ export default function HomePage() {
             {/* Left — text */}
             <div>
               <h1 className="text-[2.75rem] font-semibold tracking-[-0.04em] leading-[1.2]">
-                Lancez &amp;&nbsp;developpez votre marque&nbsp;CBD
+                {typeof heroCMS.title === "string" && heroCMS.title.trim()
+                  ? heroCMS.title
+                  : "Lancez & developpez votre marque CBD"}
               </h1>
               <p className="mt-5 text-[14px] font-medium text-[#4d4f56] leading-[1.6] max-w-[420px]">
-                Profitez de notre expertise pour creer votre marque CBD en
-                marque blanche. Sans minimum de commande, design 100%
-                personnalisable.
+                {typeof heroCMS.subtitle === "string" && heroCMS.subtitle.trim()
+                  ? heroCMS.subtitle
+                  : "Profitez de notre expertise pour creer votre marque CBD en marque blanche. Sans minimum de commande, design 100% personnalisable."}
               </p>
 
               {/* Check features — inline like selfnamed */}
               <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-                {features.map((f) => (
+                {cmsFeatures.map((f: { icon: typeof Check; text: string }) => (
                   <div key={f.text} className="flex items-center gap-2">
                     <span className="flex h-[20px] w-[20px] items-center justify-center rounded bg-green-600">
                       <Check className="h-3 w-3 text-white" strokeWidth={3} />
@@ -222,19 +272,13 @@ export default function HomePage() {
 
             {/* Right — hero visual (takes remaining space, ~55% of grid) */}
             <div className="relative hidden lg:block">
-              <div className="relative w-full aspect-square max-h-[520px] rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-stone-100 via-stone-200 to-stone-300 shadow-2xl">
-                {/* Central product placeholder */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative">
-                    <div className="w-28 h-44 bg-gradient-to-b from-amber-200 to-amber-400 rounded-xl shadow-lg mx-auto" />
-                    <div className="w-12 h-6 bg-amber-300 rounded-t-lg mx-auto -mt-0.5" />
-                    <div className="absolute top-12 left-1/2 -translate-x-1/2 w-20 h-14 bg-white/90 rounded-md flex items-center justify-center shadow-sm">
-                      <span className="text-[8px] font-bold text-stone-500 text-center leading-tight">
-                        Votre<br />Marque<br />CBD
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              <div className="relative w-full aspect-square max-h-[520px] rounded-[1.5rem] overflow-hidden shadow-2xl">
+                {/* Background — real pouches image */}
+                <img
+                  src="/products/pouches-bg.avif"
+                  alt="Pochons CBD premium marque blanche"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
 
                 {/* Floating UI card — top left (Design tools) */}
                 <div className="absolute top-5 left-5 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-3.5 w-[130px]">
@@ -287,7 +331,7 @@ export default function HomePage() {
       </section>
 
       {/* ==================== STATS BANNER ==================== */}
-      <section className="px-4 sm:px-6 lg:px-8 py-6">
+      <section data-reveal className="px-4 sm:px-6 lg:px-8 py-6">
         <div className="relative max-w-[1240px] mx-auto bg-[#faf5ed] rounded-[2rem] overflow-hidden py-20 px-8">
           <div className="absolute top-0 right-0 w-[320px] h-[320px] opacity-60">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#f0e8d8] rounded-full translate-x-16 -translate-y-8" />
@@ -323,7 +367,7 @@ export default function HomePage() {
       </section>
 
       {/* ==================== BRAND LOGOS CAROUSEL ==================== */}
-      <section className="py-12 overflow-hidden">
+      <section data-reveal className="py-12 overflow-hidden">
         <div className="relative">
           {/* Fade edges */}
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
@@ -360,24 +404,199 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ==================== 3 STEPS ==================== */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-[44px] font-semibold tracking-[-0.04em] leading-[1.2]">
-              CBD premium, produit a la demande pour vous
+      {/* ==================== CONNECT — no stock / on demand ==================== */}
+      <section data-reveal className="py-24">
+        <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center mb-14">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#6c3fee] bg-[#f1eefe] px-3 py-1.5 rounded-full mb-4">
+              <Zap className="h-3 w-3" />
+              Connexion directe
+            </span>
+            <h2 className="text-[40px] lg:text-[48px] font-semibold tracking-[-0.04em] leading-[1.08]">
+              Connectez votre boutique. On fabrique, on expedie.
             </h2>
-            <p className="mt-4 text-[14px] font-medium text-[#4d4f56] max-w-2xl mx-auto leading-[1.6]">
-              Le marche du CBD represente 5 milliards EUR en Europe. Prenez votre part
-              avec CBD3 &mdash; le moyen le plus simple de lancer votre marque.
+            <p className="mt-4 text-[15px] text-[#4d4f56] leading-[1.65] max-w-xl mx-auto">
+              Pas de stock a acheter, pas de minimum de commande. Vos produits
+              CBD personnalises sont fabriques <strong>on demand</strong> des
+              qu&apos;un client passe commande dans votre boutique &mdash; et
+              livres directement chez lui, sous votre marque.
             </p>
           </div>
+
+          {/* FLOW DIAGRAM */}
+          <div className="relative bg-gradient-to-br from-[#faf5ed] to-[#f1eefe] rounded-[2rem] p-8 lg:p-14 overflow-hidden">
+            {/* decorative blobs */}
+            <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#6c3fee]/10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#ede4cc]/40 rounded-full blur-3xl" />
+
+            <div className="relative grid lg:grid-cols-[1fr_auto_1fr_auto_1fr] gap-6 lg:gap-0 items-stretch">
+              {/* Node 1 — Your store */}
+              <div className="bg-white rounded-[1.25rem] p-6 shadow-sm border border-[#f1f1f3] flex flex-col">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-8 h-8 rounded-lg bg-[#95bf47] text-white flex items-center justify-center font-bold text-[16px]">
+                    S
+                  </span>
+                  <span className="w-8 h-8 rounded-lg bg-[#7f54b3] text-white flex items-center justify-center font-bold text-[13px]">
+                    Wo
+                  </span>
+                  <span className="w-8 h-8 rounded-lg bg-[#1a1a1a] text-white flex items-center justify-center font-mono text-[11px]">
+                    {"{}"}
+                  </span>
+                </div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9ca3af]">
+                  Etape 01
+                </p>
+                <h3 className="text-[18px] font-semibold mt-1 mb-2">Votre boutique</h3>
+                <p className="text-[12px] text-[#4d4f56] leading-snug mt-auto">
+                  Shopify, WooCommerce, Prestashop ou API. Un client commande votre
+                  produit CBD sous votre marque.
+                </p>
+              </div>
+
+              {/* Arrow 1 */}
+              <div className="hidden lg:flex items-center justify-center px-3 relative">
+                <div className="w-full flex items-center">
+                  <div className="flex-1 border-t-2 border-dashed border-[#6c3fee]/30" />
+                  <div className="mx-2 w-8 h-8 rounded-full bg-white shadow-md border border-[#6c3fee]/20 flex items-center justify-center">
+                    <ArrowRight className="h-3.5 w-3.5 text-[#6c3fee]" />
+                  </div>
+                  <div className="flex-1 border-t-2 border-dashed border-[#6c3fee]/30" />
+                </div>
+                <span className="absolute -top-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold uppercase tracking-wider bg-[#6c3fee] text-white px-2.5 py-1 rounded-full">
+                  Sync auto
+                </span>
+              </div>
+
+              {/* Node 2 — Unsigned fabric */}
+              <div className="relative bg-foreground text-background rounded-[1.25rem] p-6 shadow-lg flex flex-col ring-2 ring-[#6c3fee]/40">
+                <div className="absolute -top-3 left-6 bg-[#6c3fee] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow">
+                  On demand
+                </div>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                    <Palette className="h-4 w-4" />
+                  </span>
+                  <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                    <Package className="h-4 w-4" />
+                  </span>
+                  <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                    <ShieldCheck className="h-4 w-4" />
+                  </span>
+                </div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-background/60">
+                  Etape 02
+                </p>
+                <h3 className="text-[18px] font-semibold mt-1 mb-2">
+                  On fabrique sous votre marque
+                </h3>
+                <p className="text-[12px] text-background/70 leading-snug mt-auto">
+                  Fabrication unitaire en UE. Etiquette, packaging et COA a votre
+                  marque. <strong className="text-background">Zero stock</strong>,
+                  zero gaspillage.
+                </p>
+              </div>
+
+              {/* Arrow 2 */}
+              <div className="hidden lg:flex items-center justify-center px-3 relative">
+                <div className="w-full flex items-center">
+                  <div className="flex-1 border-t-2 border-dashed border-[#6c3fee]/30" />
+                  <div className="mx-2 w-8 h-8 rounded-full bg-white shadow-md border border-[#6c3fee]/20 flex items-center justify-center">
+                    <ArrowRight className="h-3.5 w-3.5 text-[#6c3fee]" />
+                  </div>
+                  <div className="flex-1 border-t-2 border-dashed border-[#6c3fee]/30" />
+                </div>
+                <span className="absolute -top-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold uppercase tracking-wider bg-[#6c3fee] text-white px-2.5 py-1 rounded-full">
+                  Colis neutre
+                </span>
+              </div>
+
+              {/* Node 3 — Customer */}
+              <div className="bg-white rounded-[1.25rem] p-6 shadow-sm border border-[#f1f1f3] flex flex-col">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-[#f1eefe] text-[#6c3fee] flex items-center justify-center">
+                    <Truck className="h-4 w-4" />
+                  </div>
+                  <div className="flex-1 h-1.5 bg-[#f1f1f3] rounded-full overflow-hidden">
+                    <div className="h-full w-3/4 bg-green-500 rounded-full" />
+                  </div>
+                  <Check className="h-4 w-4 text-green-600" strokeWidth={3} />
+                </div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9ca3af]">
+                  Etape 03
+                </p>
+                <h3 className="text-[18px] font-semibold mt-1 mb-2">Livre a votre client</h3>
+                <p className="text-[12px] text-[#4d4f56] leading-snug mt-auto">
+                  Expedition 2 a 5 jours en UE sous colis neutre. Votre client ne
+                  voit que <strong>votre marque</strong>.
+                </p>
+              </div>
+            </div>
+
+            {/* 3 bullets */}
+            <div className="relative mt-10 grid sm:grid-cols-3 gap-4">
+              {[
+                { icon: Package, title: "Zero stock a avancer", desc: "Vous ne payez que ce qui est commande." },
+                { icon: Zap, title: "Personnalisation 100%", desc: "Etiquette, packaging, coffret, a votre marque." },
+                { icon: Globe, title: "Fabrication UE", desc: "Conforme EU/FR, THC < 0.3%, COA par lot." },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm">
+                    <Icon className="h-4 w-4 text-[#6c3fee]" />
+                  </div>
+                  <div>
+                    <h4 className="text-[14px] font-semibold">{title}</h4>
+                    <p className="text-[12px] text-[#4d4f56] mt-0.5 leading-snug">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="relative mt-10 flex justify-center gap-3 flex-wrap">
+              <Link href="/integrations">
+                <Button className="rounded-full h-12 px-6 text-[12px] font-bold uppercase tracking-wider bg-[#6c3fee] hover:bg-[#5a2fd8] text-white">
+                  Voir les integrations
+                  <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                </Button>
+              </Link>
+              <Link href="/how-it-works">
+                <Button
+                  variant="outline"
+                  className="rounded-full h-12 px-6 text-[12px] font-bold uppercase tracking-wider"
+                >
+                  Comment ca marche
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== PRODUIT & DESIGN ==================== */}
+      <section data-reveal className="py-24 bg-muted/30">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-4">
+              Produit & design
+            </p>
+            <h2 className="text-[44px] font-semibold tracking-[-0.04em] leading-[1.2] max-w-3xl mx-auto">
+              Des produits CBD premium, habilles a votre marque.
+            </h2>
+            <p className="mt-4 text-[14px] font-medium text-[#4d4f56] max-w-2xl mx-auto leading-[1.6]">
+              Un catalogue serre de formulations eprouvees, un packaging
+              entierement personnalisable, des outils de design pour le faire
+              vous-meme ou un studio interne pour le faire avec vous.
+            </p>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-6">
-            {/* Step 01 — Choose products */}
+            {/* 01 — Catalogue */}
             <div className="flex flex-col">
-              {/* Image block */}
               <div className="relative bg-[#e8e8ea] rounded-2xl aspect-[4/3] overflow-hidden mb-6">
                 <div className="absolute top-4 left-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-[13px] font-semibold">01</div>
+                <span className="absolute top-4 right-4 inline-flex items-center bg-white/90 text-foreground text-[10px] font-bold uppercase tracking-wider rounded-full px-2.5 py-1">
+                  8 categories
+                </span>
                 {/* Product bottles illustration */}
                 <div className="absolute inset-0 flex items-end justify-center pb-0">
                   <div className="flex items-end gap-2">
@@ -387,97 +606,137 @@ export default function HomePage() {
                     <div className="w-9 h-32 bg-white rounded-t-lg" />
                     <div className="w-6 h-18 bg-white rounded-t-full" />
                   </div>
-                  {/* Floating checkmarks */}
                   <div className="absolute top-1/3 right-1/4 w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg">
                     <Check className="h-4 w-4 text-white" strokeWidth={3} />
                   </div>
                   <div className="absolute bottom-1/4 right-1/3 w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg">
                     <Check className="h-4 w-4 text-white" strokeWidth={3} />
                   </div>
-                  <div className="absolute top-1/2 left-1/4 w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center shadow-lg">
-                    <span className="text-white text-lg font-bold">+</span>
-                  </div>
                 </div>
               </div>
-              {/* Text */}
-              <h3 className="text-[24px] font-medium leading-[1.4] text-center">Choisissez vos produits</h3>
+              <h3 className="text-[22px] font-medium leading-[1.4] text-center">
+                Catalogue eprouve
+              </h3>
               <p className="text-[14px] font-medium text-[#4d4f56] leading-[1.6] text-center mt-2">
-                Parcourez notre catalogue de 50+ produits CBD premium. Huiles, fleurs, cosmetiques — tout est pret a personnaliser.
+                Fleur, hash, pre roll, huiles, extractions, cartridges, edibles,
+                cosmetique. Formulations conformes EU/FR, COA par lot.
               </p>
             </div>
 
-            {/* Step 02 — Design */}
+            {/* 02 — Packaging */}
             <div className="flex flex-col">
               <div className="relative bg-[#e8e8ea] rounded-2xl aspect-[4/3] overflow-hidden mb-6">
                 <div className="absolute top-4 left-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-[13px] font-semibold">02</div>
+                <span className="absolute top-4 right-4 inline-flex items-center bg-white/90 text-foreground text-[10px] font-bold uppercase tracking-wider rounded-full px-2.5 py-1">
+                  100% custom
+                </span>
                 {/* Bottle with label */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="relative">
-                    {/* Cap */}
                     <div className="w-8 h-4 bg-[#2a2a2a] rounded-t-md mx-auto" />
-                    {/* Bottle body */}
                     <div className="w-20 h-36 bg-gradient-to-b from-amber-700 to-amber-900 rounded-b-lg mx-auto">
-                      {/* Label */}
                       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-16 h-20 bg-white rounded-sm flex flex-col items-center justify-center p-1">
                         <span className="text-[9px] font-bold text-center leading-tight">Votre<br />Marque<br />CBD</span>
                         <span className="text-[6px] text-muted-foreground mt-1">HUILE CBD 10%</span>
                       </div>
                     </div>
                   </div>
-                  {/* Design tools floating */}
-                  <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2">
-                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg">
-                      <Palette className="h-5 w-5 text-white" />
-                    </div>
-                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg">
-                      <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                    </div>
-                    <div className="w-10 h-10 bg-primary/80 rounded-xl flex items-center justify-center shadow-lg">
-                      <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                    </div>
+                  {/* Floating finish chips */}
+                  <div className="absolute left-6 top-6 bg-white rounded-full px-2.5 py-1 shadow-md">
+                    <span className="text-[9px] font-bold">Sleeve</span>
+                  </div>
+                  <div className="absolute right-6 top-1/2 -translate-y-1/2 bg-foreground text-white rounded-full px-2.5 py-1 shadow-md">
+                    <span className="text-[9px] font-bold">Vernis selectif</span>
+                  </div>
+                  <div className="absolute left-8 bottom-6 bg-white rounded-full px-2.5 py-1 shadow-md">
+                    <span className="text-[9px] font-bold">Coffret</span>
                   </div>
                 </div>
               </div>
-              <h3 className="text-[24px] font-medium leading-[1.4] text-center">Creez votre design</h3>
+              <h3 className="text-[22px] font-medium leading-[1.4] text-center">
+                Packaging premium
+              </h3>
               <p className="text-[14px] font-medium text-[#4d4f56] leading-[1.6] text-center mt-2">
-                Personnalisez chaque produit avec votre marque. Logo, couleurs, textes — le design studio fait tout.
+                Etiquette, sleeve thermo, coffret carton, vernis selectif,
+                bundles. Tous les codes du retail premium, sans MOQ.
               </p>
             </div>
 
-            {/* Step 03 — Sell */}
+            {/* 03 — Design Studio + service */}
             <div className="flex flex-col">
               <div className="relative bg-[#e8e8ea] rounded-2xl aspect-[4/3] overflow-hidden mb-6">
                 <div className="absolute top-4 left-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-[13px] font-semibold">03</div>
-                {/* Store integrations */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {/* Shopify card */}
-                  <div className="absolute top-6 right-6 w-20 h-14 bg-[#95bf47] rounded-xl flex items-center justify-center shadow-lg">
-                    <span className="text-white text-[11px] font-bold">Shopify</span>
-                  </div>
-                  {/* WooCommerce card */}
-                  <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-purple-200 rounded-xl px-3 py-2 shadow-lg">
-                    <span className="text-purple-800 text-[12px] font-bold">WOO</span>
-                  </div>
-                  {/* Your Store card */}
-                  <div className="bg-white rounded-2xl p-4 shadow-xl">
-                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
-                      <span className="text-white text-lg font-bold">+</span>
+                <span className="absolute top-4 right-4 inline-flex items-center bg-white/90 text-foreground text-[10px] font-bold uppercase tracking-wider rounded-full px-2.5 py-1">
+                  DIY ou pro
+                </span>
+                {/* Design tools mockup */}
+                <div className="absolute inset-0 flex items-center justify-center p-6">
+                  <div className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div className="h-6 bg-[#f7f7f8] border-b flex items-center px-2 gap-1">
+                      <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+                      <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
+                      <div className="w-2 h-2 rounded-full bg-[#28c840]" />
                     </div>
-                    <span className="text-[12px] font-semibold">Votre Boutique</span>
+                    <div className="p-3 flex gap-2">
+                      <div className="flex flex-col gap-1.5">
+                        <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
+                          <Palette className="h-3.5 w-3.5 text-white" />
+                        </div>
+                        <div className="w-7 h-7 rounded-md bg-[#f7f7f8] border" />
+                        <div className="w-7 h-7 rounded-md bg-[#f7f7f8] border" />
+                      </div>
+                      <div className="flex-1 bg-gradient-to-br from-amber-100 to-orange-200 rounded-md flex items-center justify-center">
+                        <div className="w-8 h-12 bg-white rounded shadow-sm" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <div className="w-5 h-5 rounded-full bg-amber-700" />
+                        <div className="w-5 h-5 rounded-full bg-foreground" />
+                        <div className="w-5 h-5 rounded-full bg-green-600" />
+                        <div className="w-5 h-5 rounded-full bg-pink-400" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <h3 className="text-[24px] font-medium leading-[1.4] text-center">Vendez &amp; expedions</h3>
+              <h3 className="text-[22px] font-medium leading-[1.4] text-center">
+                Outils + service design
+              </h3>
               <p className="text-[14px] font-medium text-[#4d4f56] leading-[1.6] text-center mt-2">
-                Integrez votre boutique en ligne. Nous gerons le stock, la production et l&apos;expedition pour vous.
+                Design Studio en ligne pour le DIY, equipe interne pour le sur
+                mesure. Etiquettes, mockups 3D, exports prets a fabriquer.
               </p>
             </div>
+          </div>
+
+          {/* Inline CTAs */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/catalog">
+              <Button className="rounded-full h-12 px-6 text-[12px] font-bold uppercase tracking-wider">
+                Voir le catalogue
+              </Button>
+            </Link>
+            <Link href="/design-studio">
+              <Button
+                variant="outline"
+                className="rounded-full h-12 px-6 text-[12px] font-bold uppercase tracking-wider"
+              >
+                Outils de design
+              </Button>
+            </Link>
+            <Link href="/services">
+              <Button
+                variant="ghost"
+                className="rounded-full h-12 px-6 text-[12px] font-bold uppercase tracking-wider"
+              >
+                Service design
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ==================== FULFILLMENT / MAP ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-[44px] font-semibold tracking-[-0.04em] leading-[1.2] text-center mb-16">
             Une logistique fiable qui evolue avec vous
@@ -486,32 +745,36 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 items-center">
             {/* Map */}
             <div className="relative bg-[#eef0f8] rounded-2xl aspect-[4/3] overflow-hidden">
-              {/* Europe map SVG simplified */}
               <svg className="absolute inset-0 w-full h-full p-8" viewBox="0 0 500 400" fill="none">
                 {/* Europe outline simplified */}
                 <path d="M120 80 L160 60 L200 70 L240 50 L280 60 L320 40 L360 55 L380 80 L400 70 L420 90 L400 120 L410 150 L390 180 L370 160 L350 190 L380 220 L370 250 L340 240 L320 270 L290 250 L270 280 L240 260 L220 290 L200 270 L180 300 L160 280 L140 260 L120 270 L110 240 L90 220 L100 190 L80 170 L90 140 L70 120 L90 100 Z" fill="#d4d8f0" stroke="#c0c4e0" strokeWidth="1"/>
-                {/* France highlighted */}
-                <path d="M150 180 L170 170 L190 175 L200 190 L210 210 L200 230 L180 240 L160 235 L145 220 L140 200 Z" fill="#b8bde8" stroke="#a0a6d8" strokeWidth="1"/>
-                {/* Hub point — Paris */}
-                <circle cx="175" cy="200" r="5" fill="#0c0d12"/>
+                {/* Switzerland highlighted */}
+                <path d="M205 200 L218 195 L232 200 L238 210 L232 220 L218 224 L205 220 L200 210 Z" fill="#b8bde8" stroke="#a0a6d8" strokeWidth="1"/>
+                {/* Hub point — Geneve */}
+                <circle cx="218" cy="210" r="5" fill="#0c0d12"/>
                 {/* Tooltip */}
-                <rect x="135" y="165" width="80" height="24" rx="4" fill="#0c0d12"/>
-                <text x="175" y="181" textAnchor="middle" className="text-[10px]" fill="white" style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', fontWeight: 600 }}>Paris, France</text>
-                {/* Delivery lines */}
-                <line x1="175" y1="200" x2="280" y2="120" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
-                <line x1="175" y1="200" x2="320" y2="180" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
-                <line x1="175" y1="200" x2="200" y2="140" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
-                <line x1="175" y1="200" x2="250" y2="250" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
-                <line x1="175" y1="200" x2="140" y2="130" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
-                <line x1="175" y1="200" x2="300" y2="90" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
+                <rect x="178" y="175" width="90" height="24" rx="4" fill="#0c0d12"/>
+                <text x="223" y="191" textAnchor="middle" fill="white" style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', fontWeight: 600 }}>Geneve, Suisse</text>
+                {/* Delivery lines from Geneva */}
+                <line x1="218" y1="210" x2="280" y2="120" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
+                <line x1="218" y1="210" x2="320" y2="180" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
+                <line x1="218" y1="210" x2="200" y2="140" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
+                <line x1="218" y1="210" x2="250" y2="260" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
+                <line x1="218" y1="210" x2="150" y2="200" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
+                <line x1="218" y1="210" x2="300" y2="90" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
+                <line x1="218" y1="210" x2="340" y2="240" stroke="#8b90b8" strokeWidth="1" strokeDasharray="4 3"/>
                 {/* Destination dots */}
                 <circle cx="280" cy="120" r="3" fill="#6b70a0"/>
                 <circle cx="320" cy="180" r="3" fill="#6b70a0"/>
                 <circle cx="200" cy="140" r="3" fill="#6b70a0"/>
-                <circle cx="250" cy="250" r="3" fill="#6b70a0"/>
-                <circle cx="140" cy="130" r="3" fill="#6b70a0"/>
+                <circle cx="250" cy="260" r="3" fill="#6b70a0"/>
+                <circle cx="150" cy="200" r="3" fill="#6b70a0"/>
                 <circle cx="300" cy="90" r="3" fill="#6b70a0"/>
+                <circle cx="340" cy="240" r="3" fill="#6b70a0"/>
               </svg>
+              <span className="absolute bottom-4 left-4 inline-flex items-center bg-white/90 text-foreground text-[11px] font-bold uppercase tracking-wider rounded-full px-3 py-1.5">
+                🇨🇭 Hub Suisse
+              </span>
             </div>
 
             {/* Feature cards */}
@@ -521,9 +784,10 @@ export default function HomePage() {
                   <Globe className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
-                  <h3 className="text-[16px] font-semibold mb-1">Livraison rapide en Europe</h3>
+                  <h3 className="text-[16px] font-semibold mb-1">Expedition depuis la Suisse</h3>
                   <p className="text-[14px] font-medium text-[#4d4f56] leading-[1.6]">
-                    Expedition sous 48h depuis notre entrepot en France. Livraison en 2-5 jours dans toute l&apos;UE.
+                    Notre hub logistique est base en Suisse. Expedition sous 48 h vers
+                    toute l&apos;UE et la Suisse, livraison en 2 a 5 jours.
                   </p>
                 </div>
               </div>
@@ -532,9 +796,10 @@ export default function HomePage() {
                   <Zap className="h-6 w-6 text-foreground" />
                 </div>
                 <div>
-                  <h3 className="text-[16px] font-semibold mb-1">Lancez de nouveaux produits en heures</h3>
+                  <h3 className="text-[16px] font-semibold mb-1">Lancez en quelques heures</h3>
                   <p className="text-[14px] font-medium text-[#4d4f56] leading-[1.6]">
-                    Sans minimum de commande — commandez un produit ou des milliers. C&apos;est vous qui decidez.
+                    Sans minimum de commande. Une unite ou des milliers — c&apos;est
+                    vous qui decidez du rythme.
                   </p>
                 </div>
               </div>
@@ -545,17 +810,39 @@ export default function HomePage() {
                 <div>
                   <h3 className="text-[16px] font-semibold mb-1">Qualite premium &amp; conformite</h3>
                   <p className="text-[14px] font-medium text-[#4d4f56] leading-[1.6]">
-                    Produits certifies, conformes a la reglementation EU/FR. THC &lt; 0.3%, COA par lot.
+                    Produits conformes a la reglementation EU/FR/CH. THC &lt; 0.3%,
+                    COA par lot, traceabilite complete.
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Useful links */}
+          <div className="mt-12 border-t pt-10">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-6 text-center">
+              Informations utiles
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {cmsUsefulLinks.map((link: { label: string; href: string }) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="group flex items-center justify-between gap-2 px-4 py-3 rounded-xl border border-foreground/10 bg-white hover:border-foreground/40 hover:bg-[#f7f7f8] transition-colors"
+                >
+                  <span className="text-[13px] font-medium leading-tight">
+                    {link.label}
+                  </span>
+                  <ArrowRight className="h-3.5 w-3.5 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all shrink-0" />
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* ==================== CATEGORIES ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-12">
             <div>
@@ -603,11 +890,11 @@ export default function HomePage() {
       </section>
 
       {/* ==================== TRUST ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-[44px] font-semibold tracking-[-0.04em] leading-[1.2]">
-              Pourquoi choisir CBD3 ?
+              Pourquoi choisir Unsigned ?
             </h2>
             <p className="mt-4 text-[14px] font-medium text-[#4d4f56] max-w-2xl mx-auto leading-[1.6]">
               Tout ce dont vous avez besoin pour lancer et developper votre
@@ -633,7 +920,7 @@ export default function HomePage() {
       <ProfitCalculator />
 
       {/* ==================== HEAR FROM OUR CUSTOMERS ==================== */}
-      <section className="py-24 overflow-hidden">
+      <section data-reveal className="py-24 overflow-hidden">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header row */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
@@ -680,7 +967,7 @@ export default function HomePage() {
               role: "Fondatrice, Bloom CBD",
             },
             {
-              quote: "Le concept de marque blanche CBD est revolutionnaire. Plus besoin de gerer le stock ou la conformite, CBD3 s'occupe de tout.",
+              quote: "Le concept de marque blanche CBD est revolutionnaire. Plus besoin de gerer le stock ou la conformite, Unsigned s'occupe de tout.",
               author: "Thomas R.",
               role: "E-commercant",
             },
@@ -700,7 +987,7 @@ export default function HomePage() {
               role: "Creatrice, Pure Leaf",
             },
             {
-              quote: "Le support est excellent et les delais de livraison sont toujours respectes. Je recommande CBD3 a 100%.",
+              quote: "Le support est excellent et les delais de livraison sont toujours respectes. Je recommande Unsigned a 100%.",
               author: "Antoine K.",
               role: "Revendeur CBD",
             },
@@ -736,7 +1023,7 @@ export default function HomePage() {
       </section>
 
       {/* ==================== GET INSPIRED ==================== */}
-      <section className="py-24 overflow-hidden">
+      <section data-reveal className="py-24 overflow-hidden">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-[44px] font-semibold tracking-[-0.04em] leading-[1.2]">
@@ -757,9 +1044,9 @@ export default function HomePage() {
           {[
             { bg: "from-amber-300 to-yellow-400", label: "Bloom CBD", sub: "Huiles premium" },
             { bg: "from-stone-200 to-stone-300", label: "Herb & Co", sub: "Fleurs artisanales" },
-            { bg: "from-rose-300 to-pink-400", label: "Canna Luxe", sub: "Coffrets cadeaux" },
-            { bg: "from-amber-700 to-orange-800", label: "Terra Verde", sub: "Cosmetiques CBD" },
-            { bg: "from-emerald-300 to-green-400", label: "Pure Leaf", sub: "Infusions bio" },
+            { bg: "from-rose-300 to-pink-400", label: "Canna Luxe", sub: "Edibles premium" },
+            { bg: "from-amber-700 to-orange-800", label: "Terra Verde", sub: "Cosmetique CBD" },
+            { bg: "from-emerald-300 to-green-400", label: "Pure Leaf", sub: "Pre roll bio" },
             { bg: "from-violet-300 to-purple-400", label: "Zenith CBD", sub: "Resines premium" },
           ].map((item) => (
             <div
@@ -791,7 +1078,7 @@ export default function HomePage() {
       </section>
 
       {/* ==================== TRUSTED PARTNER — beige block ==================== */}
-      <section className="px-4 sm:px-6 lg:px-8 py-6">
+      <section data-reveal className="px-4 sm:px-6 lg:px-8 py-6">
         <div className="max-w-[1240px] mx-auto bg-[#faf5ed] rounded-[2rem] overflow-hidden min-h-[500px] relative">
           {/* Left — text content */}
           <div className="relative z-10 max-w-[520px] px-10 py-16 lg:px-16 lg:py-24">
@@ -831,8 +1118,96 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ==================== SIGNED LABEL — INCUBATEUR ==================== */}
+      <section data-reveal className="px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-[1240px] mx-auto relative">
+          {/* Offset accent frame */}
+          <div
+            aria-hidden="true"
+            className="absolute -top-3 -left-3 sm:-top-5 sm:-left-5 right-12 sm:right-24 bottom-12 sm:bottom-20 rounded-[2rem] border-[3px] border-foreground/80 pointer-events-none"
+          />
+
+          {/* Card */}
+          <div className="relative grid lg:grid-cols-[1.05fr_1fr] bg-white rounded-[2rem] overflow-hidden shadow-sm">
+            {/* Left — quote */}
+            <div className="px-10 py-16 lg:px-16 lg:py-20 flex flex-col justify-between min-h-[480px]">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-8">
+                  {typeof teaserCMS.eyebrow === "string" && teaserCMS.eyebrow.trim()
+                    ? teaserCMS.eyebrow
+                    : "Sur invitation"}
+                </p>
+                <blockquote className="text-[24px] sm:text-[30px] lg:text-[34px] font-medium tracking-[-0.02em] leading-[1.3] text-foreground">
+                  &ldquo;
+                  {typeof teaserCMS.quote === "string" && teaserCMS.quote.trim()
+                    ? teaserCMS.quote
+                    : "Pour les marques qui refusent le nivellement du CBD, Signed Label apporte l'infrastructure, la conformite et l'accompagnement — sans diluer la vision."}
+                  &rdquo;
+                </blockquote>
+              </div>
+              <div className="mt-10">
+                <p className="text-[15px] font-semibold text-foreground">
+                  {typeof teaserCMS.attributionName === "string" && teaserCMS.attributionName.trim()
+                    ? teaserCMS.attributionName
+                    : "Signed Label"}
+                  <sup className="text-[10px] ml-0.5">TM</sup>
+                </p>
+                <p className="text-[13px] text-[#4d4f56] mt-0.5">
+                  {typeof teaserCMS.attributionRole === "string" && teaserCMS.attributionRole.trim()
+                    ? teaserCMS.attributionRole
+                    : "Incubateur prive d'Unsigned"}
+                </p>
+              </div>
+            </div>
+
+            {/* Right — visual + CTA */}
+            <div className="relative min-h-[320px] lg:min-h-[480px] overflow-hidden bg-gradient-to-br from-[#fbe7d7] via-[#f4c9b0] to-[#e8a988]">
+              {/* Bubbles texture */}
+              <div className="absolute inset-0 pointer-events-none">
+                {[
+                  { l: "12%", t: "18%", s: "h-12 w-12" },
+                  { l: "68%", t: "22%", s: "h-6 w-6" },
+                  { l: "82%", t: "55%", s: "h-16 w-16" },
+                  { l: "28%", t: "70%", s: "h-8 w-8" },
+                  { l: "55%", t: "78%", s: "h-5 w-5" },
+                  { l: "44%", t: "32%", s: "h-3 w-3" },
+                  { l: "76%", t: "10%", s: "h-2 w-2" },
+                  { l: "20%", t: "48%", s: "h-2 w-2" },
+                  { l: "60%", t: "60%", s: "h-3 w-3" },
+                  { l: "90%", t: "30%", s: "h-2 w-2" },
+                ].map((b, i) => (
+                  <span
+                    key={i}
+                    className={`absolute ${b.s} rounded-full border border-white/70 bg-white/30 backdrop-blur-[1px]`}
+                    style={{ left: b.l, top: b.t }}
+                  />
+                ))}
+              </div>
+
+              {/* Soft purple wash on right edge for depth, matches reference */}
+              <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-[#dcd0e8]/80 to-transparent pointer-events-none" />
+
+              {/* CTA pill */}
+              <Link
+                href={
+                  typeof teaserCMS.ctaHref === "string" && teaserCMS.ctaHref.trim()
+                    ? teaserCMS.ctaHref
+                    : "/incubateur"
+                }
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 bg-foreground text-white text-[12px] font-bold uppercase tracking-[0.18em] rounded-full px-7 py-4 hover:bg-foreground/85 transition-colors shadow-lg"
+              >
+                {typeof teaserCMS.ctaLabel === "string" && teaserCMS.ctaLabel.trim()
+                  ? teaserCMS.ctaLabel
+                  : "Read more"}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ==================== FAQ ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-[44px] font-semibold tracking-[-0.04em] leading-[1.2]">
@@ -840,7 +1215,7 @@ export default function HomePage() {
             </h2>
           </div>
           <Accordion className="space-y-3">
-            {faqs.map((faq, i) => (
+            {cmsFaqs.map((faq: { q: string; a: string }, i: number) => (
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
@@ -859,14 +1234,14 @@ export default function HomePage() {
       </section>
 
       {/* ==================== CTA ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-[44px] font-semibold tracking-[-0.04em] leading-[1.2]">
             Pret a lancer votre marque CBD ?
           </h2>
           <p className="mt-4 text-[14px] font-medium text-[#4d4f56] max-w-xl mx-auto leading-[1.6]">
             Rejoignez 200+ entrepreneurs qui ont lance leur marque CBD avec
-            CBD3. C&apos;est gratuit pour commencer.
+            Unsigned. C&apos;est gratuit pour commencer.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link href="/profile">

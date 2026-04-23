@@ -18,9 +18,11 @@ import {
   Play,
   Droplets,
   Flower2,
-  Coffee,
-  Gift,
   CircleDot,
+  Cigarette,
+  FlaskConical,
+  Battery,
+  Cookie,
 } from "lucide-react";
 
 /* ============================================================
@@ -112,12 +114,14 @@ const personas = [
 ];
 
 const categories = [
-  { name: "Huiles CBD", href: "/catalog/huiles-cbd", icon: Droplets, count: "12 produits", bg: "bg-amber-50", iconColor: "text-amber-600" },
-  { name: "Fleurs CBD", href: "/catalog/fleurs-cbd", icon: Flower2, count: "15 produits", bg: "bg-green-50", iconColor: "text-green-600" },
-  { name: "Cosmetiques CBD", href: "/catalog/cosmetiques-cbd", icon: Leaf, count: "10 produits", bg: "bg-pink-50", iconColor: "text-pink-600" },
-  { name: "Infusions CBD", href: "/catalog/infusions-cbd", icon: Coffee, count: "6 produits", bg: "bg-orange-50", iconColor: "text-orange-600" },
-  { name: "Coffrets", href: "/catalog/coffrets", icon: Gift, count: "4 produits", bg: "bg-purple-50", iconColor: "text-purple-600" },
-  { name: "Resines CBD", href: "/catalog/resines-cbd", icon: CircleDot, count: "8 produits", bg: "bg-blue-50", iconColor: "text-blue-600" },
+  { name: "Fleur CBD", href: "/catalog/fleur-cbd", icon: Flower2, count: "Indoor, outdoor, greenhouse", bg: "bg-green-50", iconColor: "text-green-600" },
+  { name: "Hash CBD", href: "/catalog/hash-cbd", icon: CircleDot, count: "Hash, pollen, moonrock", bg: "bg-blue-50", iconColor: "text-blue-600" },
+  { name: "Pre roll CBD", href: "/catalog/pre-roll-cbd", icon: Cigarette, count: "Joints prets a fumer", bg: "bg-stone-50", iconColor: "text-stone-700" },
+  { name: "Huiles CBD", href: "/catalog/huiles-cbd", icon: Droplets, count: "Sublinguales & MCT", bg: "bg-amber-50", iconColor: "text-amber-600" },
+  { name: "Extractions CBD", href: "/catalog/extractions-cbd", icon: FlaskConical, count: "Wax, shatter, live resin", bg: "bg-orange-50", iconColor: "text-orange-600" },
+  { name: "Cartridges CBD", href: "/catalog/cartridges-cbd", icon: Battery, count: "Vape pen 510 & disposable", bg: "bg-purple-50", iconColor: "text-purple-600" },
+  { name: "Edibles CBD", href: "/catalog/edibles-cbd", icon: Cookie, count: "Gummies, chocolat, infusions", bg: "bg-rose-50", iconColor: "text-rose-600" },
+  { name: "Cosmetique CBD", href: "/catalog/cosmetique-cbd", icon: Leaf, count: "Cremes, baumes, serums", bg: "bg-pink-50", iconColor: "text-pink-600" },
 ];
 
 const reviews = [
@@ -173,14 +177,14 @@ export default function MarqueBlanchePage() {
       </section>
 
       {/* ==================== FEATURES — 5 CARDS ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1]">
               Lancez votre gamme CBD en marque blanche
             </h2>
             <p className="mt-4 text-[16px] font-medium text-[#4d4f56] max-w-xl mx-auto leading-[1.6]">
-              Des formules certifiees au fulfillment rapide, CBD3 rend le lancement de votre marque CBD simple et sans risque.
+              Des formules certifiees au fulfillment rapide, Unsigned rend le lancement de votre marque CBD simple et sans risque.
             </p>
           </div>
 
@@ -197,7 +201,7 @@ export default function MarqueBlanchePage() {
       </section>
 
       {/* ==================== HOW IT WORKS — 3 STEPS ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Comment fonctionne la marque blanche CBD
@@ -261,13 +265,13 @@ export default function MarqueBlanchePage() {
       </section>
 
       {/* ==================== WHO IS IT FOR — PERSONAS ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-4">
             A qui s&apos;adresse la marque blanche CBD ?
           </h2>
           <p className="text-[16px] font-medium text-[#4d4f56] text-center max-w-xl mx-auto mb-16 leading-[1.6]">
-            Que vous soyez e-commercant, professionnel du bien-etre ou createur de contenu, CBD3 s&apos;adapte a votre activite.
+            Que vous soyez e-commercant, professionnel du bien-etre ou createur de contenu, Unsigned s&apos;adapte a votre activite.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -282,7 +286,7 @@ export default function MarqueBlanchePage() {
         </div>
       </section>
 
-      {/* ==================== WHY CBD3 — PREMIUM BLOCK ==================== */}
+      {/* ==================== WHY Unsigned — PREMIUM BLOCK ==================== */}
       <section className="px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-[1240px] mx-auto bg-[#faf5ed] rounded-[2rem] overflow-hidden">
           <div className="grid lg:grid-cols-2 min-h-[520px]">
@@ -370,7 +374,7 @@ export default function MarqueBlanchePage() {
       </section>
 
       {/* ==================== PRODUCT CATEGORIES ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Commencez avec ces produits en marque blanche
@@ -486,7 +490,7 @@ export default function MarqueBlanchePage() {
       </section>
 
       {/* ==================== VIDEO TUTORIALS ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Tutoriels video
@@ -494,7 +498,7 @@ export default function MarqueBlanchePage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { title: "Introduction aux produits CBD3", color: "from-amber-100 to-orange-100" },
+              { title: "Introduction aux produits Unsigned", color: "from-amber-100 to-orange-100" },
               { title: "CBD premium & formulations", color: "from-green-100 to-emerald-100" },
               { title: "Creer votre premier produit", color: "from-blue-100 to-indigo-100" },
             ].map((video) => (
@@ -512,7 +516,7 @@ export default function MarqueBlanchePage() {
       </section>
 
       {/* ==================== WHAT'S NEXT ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1]">
             Et maintenant ?

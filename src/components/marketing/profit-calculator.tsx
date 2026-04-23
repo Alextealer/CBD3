@@ -137,7 +137,7 @@ export function ProfitCalculator() {
               ) : (
                 <>
                   <div className="flex justify-between py-3 border-b">
-                    <span className="text-[14px] text-[#4d4f56]">Prix grossiste CBD3</span>
+                    <span className="text-[14px] text-[#4d4f56]">Prix grossiste Unsigned</span>
                     <span className="text-[14px] font-semibold">
                       {product.cost.toFixed(2)}EUR
                     </span>
@@ -179,7 +179,7 @@ export function ProfitCalculator() {
                 <div className="w-40 h-64 bg-gradient-to-b from-amber-100 to-amber-300 rounded-2xl shadow-xl mx-auto">
                   <div className="w-14 h-8 bg-[#2a2a2a] rounded-t-lg mx-auto" />
                   <div className="absolute top-16 left-1/2 -translate-x-1/2 w-28 h-32 bg-white/90 rounded-md flex flex-col items-center justify-center p-2">
-                    <span className="text-[8px] font-medium text-muted-foreground">CBD3</span>
+                    <span className="text-[8px] font-medium text-muted-foreground">Unsigned</span>
                     <span className="text-[14px] font-bold mt-1">Votre</span>
                     <span className="text-[14px] font-bold">Marque</span>
                     <span className="text-[14px] font-bold">CBD</span>

@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CBD3 — Lancez votre marque CBD en marque blanche",
+  title: "Unsigned — Lancez votre marque CBD en marque blanche",
   description:
     "Creez votre propre marque CBD sans stock. Huiles, fleurs, cosmetiques CBD avec design studio integre. Conforme EU/FR.",
 };

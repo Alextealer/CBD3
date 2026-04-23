@@ -1,107 +1,56 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Leaf } from "lucide-react";
+import {
+  Leaf,
+  ShieldCheck,
+  FileCheck,
+  Truck,
+  ArrowRight,
+  Check,
+  Palette,
+  Package,
+  Droplets,
+  Flower2,
+  CircleDot,
+  Cigarette,
+  FlaskConical,
+  Battery,
+  Cookie,
+} from "lucide-react";
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { getCategoryBySlug, getProductsByCategory } from "@/lib/payload";
+import { categoriesData, type Product } from "@/data/products";
+import { categoryContent } from "@/data/category-content";
 
 export const dynamic = "force-dynamic";
-
-interface Product {
-  name: string;
-  volume: string;
-  cbdRange: string;
-  thc: string;
-  price: string;
-  tags: string[];
-  badge?: "Nouveau" | "Bientot";
-  variants?: number;
-  type?: string;
-  concern?: string;
-  ingredients?: string[];
-  packaging?: string;
-}
-
-interface CategoryData {
-  name: string;
-  description: string;
-  products: Product[];
-}
-
-const categoriesData: Record<string, CategoryData> = {
-  "huiles-cbd": {
-    name: "Huiles CBD",
-    description: "Huiles sublinguales et MCT professionnelles incluant spectre complet, broad spectrum et isolat. Personnalisez l'etiquette, le flacon et le coffret a votre marque.",
-    products: [
-      { name: "Huile CBD 5% Spectre Complet", volume: "10 ml / 0.34 fl oz", cbdRange: "5%", thc: "< 0.3%", price: "4.50", tags: ["Bien-etre", "Chanvre EU"], badge: "Nouveau", type: "Spectre complet", concern: "Relaxation", ingredients: ["CBD", "Huile MCT", "Terpenes"], packaging: "Flacon verre" },
-      { name: "Huile CBD 10% MCT", volume: "10 ml / 0.34 fl oz", cbdRange: "10%", thc: "< 0.3%", price: "7.00", tags: ["Relaxation", "Spectre complet"], type: "Spectre complet", concern: "Relaxation", ingredients: ["CBD", "Huile MCT"], packaging: "Flacon verre" },
-      { name: "Huile CBD 15% Premium", volume: "10 ml / 0.34 fl oz", cbdRange: "15%", thc: "< 0.3%", price: "9.50", tags: ["Premium", "Chanvre bio"], type: "Spectre complet", concern: "Bien-etre general", ingredients: ["CBD", "Huile MCT", "Vitamine E"], packaging: "Flacon verre" },
-      { name: "Huile CBD 20% Broad Spectrum", volume: "10 ml / 0.34 fl oz", cbdRange: "20%", thc: "< 0.3%", price: "12.00", tags: ["Broad spectrum", "Sans THC"], type: "Broad spectrum", concern: "Bien-etre general", ingredients: ["CBD", "CBG", "Huile MCT"], packaging: "Flacon verre" },
-      { name: "Huile CBD 25% Concentrate", volume: "10 ml / 0.34 fl oz", cbdRange: "25%", thc: "< 0.3%", price: "15.00", tags: ["Haute concentration"], type: "Broad spectrum", concern: "Bien-etre intense", ingredients: ["CBD", "CBG", "Huile MCT"], packaging: "Flacon verre ambre" },
-      { name: "Huile CBD 30% Ultra", volume: "30 ml / 1.01 fl oz", cbdRange: "30%", thc: "< 0.3%", price: "22.00", tags: ["Ultra", "Grand format"], badge: "Nouveau", type: "Spectre complet", concern: "Bien-etre intense", ingredients: ["CBD", "CBC", "Huile MCT", "Terpenes"], packaging: "Flacon verre ambre" },
-      { name: "Huile CBD Nuit CBN", volume: "10 ml / 0.34 fl oz", cbdRange: "10%", thc: "< 0.3%", price: "9.00", tags: ["Nuit", "CBN", "Melatonine"], type: "Spectre complet", concern: "Sommeil", ingredients: ["CBD", "CBN", "Melatonine", "Huile MCT"], packaging: "Flacon verre" },
-      { name: "Huile CBD Sport Curcuma", volume: "10 ml / 0.34 fl oz", cbdRange: "15%", thc: "< 0.3%", price: "10.00", tags: ["Sport", "Curcuma"], type: "Broad spectrum", concern: "Recuperation", ingredients: ["CBD", "Curcuma", "Piperine", "Huile MCT"], packaging: "Flacon verre" },
-    ],
-  },
-  "fleurs-cbd": {
-    name: "Fleurs CBD",
-    description: "Fleurs indoor, outdoor et greenhouse premium avec profils terpeniques uniques. Varietes selectionnees pour leur qualite et leur conformite EU/FR.",
-    products: [
-      { name: "Amnesia Haze CBD", volume: "Par gramme", cbdRange: "18-22%", thc: "< 0.3%", price: "3.00", tags: ["Indoor", "Citron"], badge: "Nouveau", type: "Indoor", concern: "Relaxation", ingredients: ["CBD", "Myrcene", "Limonene"], packaging: "Sachet hermetique" },
-      { name: "OG Kush CBD", volume: "Par gramme", cbdRange: "15-20%", thc: "< 0.3%", price: "3.50", tags: ["Indoor", "Terreux"], type: "Indoor", concern: "Relaxation", ingredients: ["CBD", "Myrcene", "Caryophyllene"], packaging: "Sachet hermetique" },
-      { name: "Strawberry CBD", volume: "Par gramme", cbdRange: "12-16%", thc: "< 0.3%", price: "2.50", tags: ["Greenhouse", "Fruite"], variants: 2, type: "Greenhouse", concern: "Detente", ingredients: ["CBD", "Linalol", "Myrcene"], packaging: "Sachet hermetique" },
-      { name: "Lemon Haze CBD", volume: "Par gramme", cbdRange: "20-24%", thc: "< 0.3%", price: "4.00", tags: ["Indoor", "Agrumes"], type: "Indoor", concern: "Energie", ingredients: ["CBD", "Limonene", "Terpinolene"], packaging: "Pot verre" },
-      { name: "White Widow CBD", volume: "Par gramme", cbdRange: "10-14%", thc: "< 0.3%", price: "2.00", tags: ["Outdoor", "Classique"], type: "Outdoor", concern: "Relaxation", ingredients: ["CBD", "Myrcene", "Pinene"], packaging: "Sachet hermetique" },
-      { name: "Gorilla Glue CBD", volume: "Par gramme", cbdRange: "22-26%", thc: "< 0.3%", price: "4.50", tags: ["Indoor Premium", "Resineux"], badge: "Nouveau", type: "Indoor", concern: "Relaxation intense", ingredients: ["CBD", "Caryophyllene", "Limonene", "Myrcene"], packaging: "Pot verre" },
-    ],
-  },
-  "cosmetiques-cbd": {
-    name: "Cosmetiques CBD",
-    description: "Cremes, baumes, serums et huiles de massage infuses au CBD. Formulations clean beauty conformes aux normes cosmetiques EU.",
-    products: [
-      { name: "Creme Visage Hydratante CBD", volume: "50 ml / 1.69 fl oz", cbdRange: "100mg", thc: "< 0.3%", price: "8.00", tags: ["Visage", "Hydratant"], type: "Creme", concern: "Hydratation", ingredients: ["CBD", "Acide hyaluronique", "Aloe vera"], packaging: "Pot blanc" },
-      { name: "Baume Levres Nourrissant CBD", volume: "15 ml / 0.51 fl oz", cbdRange: "25mg", thc: "< 0.3%", price: "3.00", tags: ["Levres", "Nourrissant"], type: "Baume", concern: "Nutrition", ingredients: ["CBD", "Beurre de karite", "Cire d'abeille"], packaging: "Stick" },
-      { name: "Serum Anti-age CBD", volume: "30 ml / 1.01 fl oz", cbdRange: "200mg", thc: "< 0.3%", price: "12.00", tags: ["Visage", "Acide hyaluronique"], badge: "Nouveau", type: "Serum", concern: "Anti-age", ingredients: ["CBD", "Acide hyaluronique", "Vitamine C", "Retinol"], packaging: "Flacon pipette" },
-      { name: "Huile Massage Relaxante CBD", volume: "100 ml / 3.38 fl oz", cbdRange: "500mg", thc: "< 0.3%", price: "10.00", tags: ["Corps", "Massage"], type: "Huile", concern: "Relaxation", ingredients: ["CBD", "Huile d'amande", "Lavande"], packaging: "Flacon pompe" },
-      { name: "Baume Musculaire CBD", volume: "50 ml / 1.69 fl oz", cbdRange: "300mg", thc: "< 0.3%", price: "9.00", tags: ["Corps", "Chaud-froid"], badge: "Nouveau", type: "Baume", concern: "Recuperation", ingredients: ["CBD", "Menthol", "Camphre", "Arnica"], packaging: "Pot blanc" },
-    ],
-  },
-  "infusions-cbd": {
-    name: "Infusions CBD",
-    description: "Tisanes et infusions au chanvre bio. Melanges avec plantes complementaires pour le bien-etre quotidien.",
-    products: [
-      { name: "Infusion Detente Camomille", volume: "20 sachets", cbdRange: "5mg/sachet", thc: "< 0.3%", price: "5.00", tags: ["Detente", "Camomille"], type: "Sachets", concern: "Relaxation", ingredients: ["CBD", "Camomille", "Tilleul"], packaging: "Boite carton" },
-      { name: "Infusion Nuit Verveine", volume: "20 sachets", cbdRange: "5mg/sachet", thc: "< 0.3%", price: "5.00", tags: ["Nuit", "Verveine"], type: "Sachets", concern: "Sommeil", ingredients: ["CBD", "Verveine", "Passiflore"], packaging: "Boite carton" },
-      { name: "Infusion Digestion Menthe", volume: "20 sachets", cbdRange: "5mg/sachet", thc: "< 0.3%", price: "5.00", tags: ["Digestion", "Menthe"], badge: "Nouveau", type: "Sachets", concern: "Digestion", ingredients: ["CBD", "Menthe", "Fenouil"], packaging: "Boite carton" },
-      { name: "Chanvre Nature Vrac", volume: "50 g / 1.76 oz", cbdRange: "Variable", thc: "< 0.3%", price: "6.00", tags: ["Nature", "Vrac"], type: "Vrac", concern: "Bien-etre general", ingredients: ["CBD", "Chanvre pur"], packaging: "Sachet kraft" },
-    ],
-  },
-  coffrets: {
-    name: "Coffrets Decouverte",
-    description: "Coffrets cadeaux et decouverte. Ideaux pour l'echantillonnage, les offres speciales et les cadeaux.",
-    products: [
-      { name: "Coffret Decouverte Huiles", volume: "3 x 5 ml", cbdRange: "5%, 10%, 15%", thc: "< 0.3%", price: "12.00", tags: ["Decouverte", "Huiles"], badge: "Nouveau", type: "Coffret", concern: "Decouverte", packaging: "Coffret carton premium" },
-      { name: "Coffret Bien-etre Complet", volume: "3 produits", cbdRange: "Variable", thc: "< 0.3%", price: "18.00", tags: ["Cadeau", "Mix"], type: "Coffret", concern: "Bien-etre general", packaging: "Coffret carton premium" },
-      { name: "Coffret Premium Selection", volume: "5 produits", cbdRange: "Variable", thc: "< 0.3%", price: "35.00", tags: ["Premium", "Selection"], type: "Coffret", concern: "Cadeau", packaging: "Coffret luxe" },
-    ],
-  },
-  "resines-cbd": {
-    name: "Resines CBD",
-    description: "Hash et resines CBD artisanales. Extractions premium avec des taux de CBD eleves, conformes EU/FR.",
-    products: [
-      { name: "Hash Afghan CBD", volume: "Par gramme", cbdRange: "20-25%", thc: "< 0.3%", price: "5.00", tags: ["Traditionnel", "Afghan"], type: "Hash", concern: "Relaxation", ingredients: ["CBD", "Terpenes naturels"], packaging: "Sachet hermetique" },
-      { name: "Pollen CBD", volume: "Par gramme", cbdRange: "15-20%", thc: "< 0.3%", price: "4.00", tags: ["Filtration", "Sableux"], type: "Pollen", concern: "Relaxation", ingredients: ["CBD", "Trichomes"], packaging: "Sachet hermetique" },
-      { name: "Moonrock CBD", volume: "Par gramme", cbdRange: "30-40%", thc: "< 0.3%", price: "8.00", tags: ["Premium", "Haute concentration"], badge: "Nouveau", type: "Moonrock", concern: "Relaxation intense", ingredients: ["CBD", "Kief", "Huile CBD"], packaging: "Pot verre" },
-      { name: "Charas CBD Artisanal", volume: "Par gramme", cbdRange: "18-22%", thc: "< 0.3%", price: "6.00", tags: ["Artisanal", "Frotte main"], type: "Charas", concern: "Relaxation", ingredients: ["CBD", "Terpenes naturels"], packaging: "Sachet hermetique" },
-    ],
-  },
-};
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
 }
 
-// Map DB product doc to the shape ProductGrid expects
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  "fleur-cbd": Flower2,
+  "hash-cbd": CircleDot,
+  "pre-roll-cbd": Cigarette,
+  "huiles-cbd": Droplets,
+  "extractions-cbd": FlaskConical,
+  "cartridges-cbd": Battery,
+  "edibles-cbd": Cookie,
+  "cosmetique-cbd": Leaf,
+};
+
+const accentMap: Record<string, string> = {
+  "fleur-cbd": "from-green-100 to-emerald-100",
+  "hash-cbd": "from-blue-100 to-indigo-100",
+  "pre-roll-cbd": "from-stone-100 to-stone-200",
+  "huiles-cbd": "from-amber-100 to-orange-100",
+  "extractions-cbd": "from-orange-100 to-amber-100",
+  "cartridges-cbd": "from-purple-100 to-violet-100",
+  "edibles-cbd": "from-rose-100 to-pink-100",
+  "cosmetique-cbd": "from-pink-100 to-rose-100",
+};
+
 function mapDbProduct(doc: Record<string, unknown>): Product {
   const tags = Array.isArray(doc.tags) ? doc.tags : [];
   const generalTags: string[] = [];
@@ -149,14 +98,18 @@ function mapDbProduct(doc: Record<string, unknown>): Product {
   };
 }
 
+const orderSteps = [
+  { n: "01", title: "Selectionnez", body: "Choisissez vos references depuis le catalogue ci-dessous. Echantillon possible." },
+  { n: "02", title: "Personnalisez", body: "Etiquette, packaging, finitions via le Design Studio ou notre service design." },
+  { n: "03", title: "Validez & expedez", body: "Bon a tirer, validation, production, expedition sous 5 a 10 jours." },
+];
+
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
 
-  // Try DB first
   const dbCategory = await getCategoryBySlug(category);
   const dbProducts = dbCategory ? await getProductsByCategory(category) : [];
 
-  // Fallback to hardcoded
   const fallback = categoriesData[category];
   if (!dbCategory && !fallback) notFound();
 
@@ -166,48 +119,345 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     ? dbProducts.map(mapDbProduct)
     : fallback?.products || [];
 
+  // CMS-first: read editorial fields from the Categories doc, fallback to hardcoded.
+  const fb = categoryContent[category];
+  const cms = (dbCategory ?? {}) as Record<string, unknown>;
+  const arr = <T,>(key: string): T[] | undefined => {
+    const v = cms[key];
+    return Array.isArray(v) && v.length > 0 ? (v as T[]) : undefined;
+  };
+  const str = (key: string): string | undefined => {
+    const v = cms[key];
+    return typeof v === "string" && v.trim() ? v : undefined;
+  };
+
+  const content = fb
+    ? {
+        tagline: str("tagline") ?? fb.tagline,
+        intro: arr<{ text: string }>("intro")?.map((p) => p.text) ?? fb.intro,
+        highlights: arr<{ title: string; body: string }>("highlights") ?? fb.highlights,
+        formats: arr<{ label: string; body: string }>("formats") ?? fb.formats,
+        customization:
+          arr<{ text: string }>("customization")?.map((c) => c.text) ?? fb.customization,
+        audience: arr<{ title: string; body: string }>("audience") ?? fb.audience,
+        faqs: arr<{ q: string; a: string }>("faqs") ?? fb.faqs,
+      }
+    : null;
+  const Icon = iconMap[category] ?? Leaf;
+  const accent = accentMap[category] ?? "from-stone-100 to-stone-200";
+
   return (
     <>
-      <ProductGrid
-        products={products}
-        categoryName={categoryName}
-        categoryDescription={categoryDescription}
-      />
+      {/* ==================== HERO ==================== */}
+      <section className="mx-4 sm:mx-6 lg:mx-8 mt-6">
+        <div className="bg-foreground text-white rounded-[2rem] overflow-hidden">
+          <div className="max-w-[1240px] mx-auto px-8 lg:px-16 py-20 lg:py-28">
+            <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-end">
+              <div className="max-w-[680px]">
+                <div className="flex items-center gap-3 mb-6">
+                  <Link
+                    href="/catalog"
+                    className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors"
+                  >
+                    ← Catalogue
+                  </Link>
+                  <span className="text-white/30">/</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">
+                    Marque blanche
+                  </span>
+                </div>
+                <h1 className="text-[44px] sm:text-[56px] lg:text-[72px] font-medium tracking-[-0.05em] leading-[1.05]">
+                  {categoryName}
+                </h1>
+                {content && (
+                  <p className="mt-6 text-[16px] sm:text-[18px] font-medium text-white/70 leading-[1.6] max-w-[540px]">
+                    {content.tagline}
+                  </p>
+                )}
 
-      {/* ==================== COMPLIANCE BANNER ==================== */}
-      <section className="py-10 bg-[#f7f7f8]">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            {["THC < 0.3%", "COA par lot", "Chanvre certifie EU", "Labo ISO 17025"].map((item) => (
-              <div key={item} className="flex items-center gap-2">
-                <Leaf className="h-5 w-5 text-green-600" />
-                <span className="text-[13px] font-medium">{item}</span>
+                <div className="mt-10 flex items-center gap-4">
+                  <a
+                    href="#catalogue"
+                    className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px] bg-white text-foreground hover:bg-white/90 inline-flex items-center"
+                  >
+                    Voir les references
+                  </a>
+                  <Link
+                    href="/profile"
+                    className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px] border border-white/40 text-white hover:bg-white/10 transition-colors inline-flex items-center"
+                  >
+                    Demander un devis
+                  </Link>
+                </div>
+              </div>
+
+              <div
+                className={`hidden lg:flex w-[280px] aspect-square rounded-[2rem] bg-gradient-to-br ${accent} items-center justify-center`}
+              >
+                <Icon className="h-24 w-24 text-foreground/70" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== TRUST STRIP ==================== */}
+      <section className="py-8 border-b">
+        <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: ShieldCheck, label: "THC < 0.3%" },
+              { icon: FileCheck, label: "COA par lot" },
+              { icon: Leaf, label: "Chanvre certifie EU" },
+              { icon: Truck, label: "Expedition 48 h" },
+            ].map((g) => (
+              <div key={g.label} className="flex items-center gap-3">
+                <g.icon className="h-4 w-4 text-foreground" />
+                <span className="text-[13px] font-medium">{g.label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* ==================== INTRO / EDITORIAL ==================== */}
+      {content && (
+        <section className="py-24 lg:py-28">
+          <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
+            <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-24">
+              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 sticky top-24">
+                Categorie
+              </p>
+              <div className="max-w-[680px]">
+                <p className="text-[24px] sm:text-[32px] font-medium tracking-[-0.03em] leading-[1.25]">
+                  {categoryDescription}
+                </p>
+                <div className="mt-10 space-y-5 text-[16px] text-[#4d4f56] leading-[1.75]">
+                  {content.intro.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ==================== HIGHLIGHTS ==================== */}
+      {content && (
+        <section className="py-24 lg:py-28 bg-[#f7f7f8]">
+          <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
+            <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-24 mb-16">
+              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50">
+                Points forts
+              </p>
+              <h2 className="text-[36px] sm:text-[44px] font-medium tracking-[-0.04em] leading-[1.1] max-w-[640px]">
+                Ce qui differencie notre offre {categoryName.toLowerCase()}.
+              </h2>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-foreground/10">
+              {content.highlights.map((h, i) => (
+                <div key={h.title} className="bg-[#f7f7f8] p-8">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/40 mb-5">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="text-[18px] font-semibold tracking-[-0.01em] mb-3">
+                    {h.title}
+                  </h3>
+                  <p className="text-[14px] text-[#4d4f56] leading-[1.7]">{h.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ==================== PRODUCT GRID ==================== */}
+      <section id="catalogue" className="scroll-mt-20">
+        <ProductGrid
+          products={products}
+          categoryName={categoryName}
+          categoryDescription=""
+          categorySlug={category}
+        />
+      </section>
+
+      {/* ==================== FORMATS & CUSTOMIZATION ==================== */}
+      {content && (
+        <section className="py-24 lg:py-28">
+          <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+              {/* Formats */}
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-6">
+                  Formats disponibles
+                </p>
+                <h2 className="text-[32px] sm:text-[36px] font-medium tracking-[-0.04em] leading-[1.15] mb-10">
+                  Le bon format pour chaque canal.
+                </h2>
+                <div className="space-y-5">
+                  {content.formats.map((f) => (
+                    <div
+                      key={f.label}
+                      className="grid grid-cols-[180px_1fr] gap-6 pb-5 border-b border-foreground/10"
+                    >
+                      <div className="flex items-start gap-2.5">
+                        <Package className="h-4 w-4 mt-0.5 text-foreground/60 shrink-0" />
+                        <span className="text-[14px] font-semibold leading-snug">
+                          {f.label}
+                        </span>
+                      </div>
+                      <p className="text-[14px] text-[#4d4f56] leading-[1.6]">{f.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Customization */}
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-6">
+                  Personnalisation
+                </p>
+                <h2 className="text-[32px] sm:text-[36px] font-medium tracking-[-0.04em] leading-[1.15] mb-10">
+                  Tout est imprimable, tout est ajustable.
+                </h2>
+                <div className="bg-[#faf5ed] rounded-2xl p-8 lg:p-10">
+                  <ul className="space-y-4">
+                    {content.customization.map((c) => (
+                      <li key={c} className="flex items-start gap-3">
+                        <div className="w-5 h-5 bg-foreground rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                          <Check className="h-3 w-3 text-white" strokeWidth={3} />
+                        </div>
+                        <span className="text-[15px] leading-[1.6]">{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/design-studio">
+                    <Button className="mt-8 rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[52px]">
+                      <Palette className="h-4 w-4 mr-2" />
+                      Outils de design
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ==================== AUDIENCE ==================== */}
+      {content && (
+        <section className="py-24 lg:py-28 bg-[#f7f7f8]">
+          <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
+            <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-24 mb-16">
+              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50">
+                Pour qui
+              </p>
+              <h2 className="text-[36px] sm:text-[44px] font-medium tracking-[-0.04em] leading-[1.1] max-w-[640px]">
+                Cette categorie convient particulierement a :
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-5">
+              {content.audience.map((a) => (
+                <div key={a.title} className="bg-white rounded-2xl p-7">
+                  <h3 className="text-[18px] font-semibold mb-3">{a.title}</h3>
+                  <p className="text-[14px] text-[#4d4f56] leading-[1.7]">{a.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ==================== ORDER PROCESS ==================== */}
+      <section className="py-24 lg:py-28">
+        <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-24 mb-16">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50">
+              Commander
+            </p>
+            <h2 className="text-[36px] sm:text-[44px] font-medium tracking-[-0.04em] leading-[1.1] max-w-[640px]">
+              Trois etapes, du choix a l&apos;expedition.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5">
+            {orderSteps.map((s) => (
+              <div key={s.n} className="bg-[#f7f7f8] rounded-2xl p-8">
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/40 mb-6">
+                  {s.n}
+                </p>
+                <h3 className="text-[22px] font-medium tracking-[-0.02em] mb-3">{s.title}</h3>
+                <p className="text-[14px] text-[#4d4f56] leading-[1.7]">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== FAQ ==================== */}
+      {content && content.faqs.length > 0 && (
+        <section className="py-24 lg:py-28 bg-[#f7f7f8]">
+          <div className="max-w-3xl mx-auto px-6 lg:px-8">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-6 text-center">
+              Questions frequentes
+            </p>
+            <h2 className="text-[36px] sm:text-[44px] font-medium tracking-[-0.04em] leading-[1.1] text-center mb-12">
+              Sur la categorie {categoryName.toLowerCase()}.
+            </h2>
+
+            <div className="space-y-4">
+              {content.faqs.map((item) => (
+                <details
+                  key={item.q}
+                  className="group border bg-white rounded-2xl overflow-hidden"
+                >
+                  <summary className="cursor-pointer list-none p-6 flex items-center justify-between gap-4">
+                    <h3 className="text-[16px] font-semibold pr-4">{item.q}</h3>
+                    <div className="w-8 h-8 rounded-full bg-[#f7f7f8] flex items-center justify-center shrink-0 group-open:bg-foreground group-open:text-white transition-colors">
+                      <ArrowRight className="h-4 w-4 group-open:rotate-90 transition-transform" />
+                    </div>
+                  </summary>
+                  <div className="px-6 pb-6 -mt-2">
+                    <p className="text-[14px] text-[#4d4f56] leading-[1.7]">{item.a}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ==================== CTA ==================== */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] mb-4">
-            Pret a personnaliser ces produits ?
-          </h2>
-          <p className="text-[16px] text-[#4d4f56] mb-8">
-            Creez votre compte et commencez a designer vos produits CBD des maintenant.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link href="/profile">
-              <Button className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px]">
-                Commencer
-              </Button>
-            </Link>
-            <Link href="/catalog">
-              <Button variant="outline" className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px]">
-                Voir tout le catalogue
-              </Button>
-            </Link>
+      <section className="px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-[1240px] mx-auto bg-foreground text-white rounded-[2rem] px-10 py-16 lg:px-16 lg:py-20">
+          <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-end">
+            <div>
+              <h2 className="text-[36px] sm:text-[44px] font-medium tracking-[-0.04em] leading-[1.1] max-w-[600px]">
+                Pret a lancer votre {categoryName.toLowerCase()} ?
+              </h2>
+              <p className="mt-5 text-[15px] text-white/70 leading-[1.7] max-w-[480px]">
+                Creez votre compte, commandez vos echantillons, designez votre
+                packaging. Le tout en moins d&apos;une heure.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/profile">
+                <Button className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px] bg-white text-foreground hover:bg-white/90">
+                  Commencer
+                </Button>
+              </Link>
+              <Link href="/catalog">
+                <Button
+                  variant="outline"
+                  className="rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.02em] h-[56px] border-white/40 text-white hover:bg-white/10 bg-transparent"
+                >
+                  Tout le catalogue
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

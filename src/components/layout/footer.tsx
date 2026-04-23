@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { Logo } from "@/components/brand/logo";
 
 const defaultFooterSections: FooterSection[] = [
   {
     title: "Produits",
     links: [
+      { name: "Fleur CBD", href: "/catalog/fleur-cbd" },
+      { name: "Hash CBD", href: "/catalog/hash-cbd" },
+      { name: "Pre roll CBD", href: "/catalog/pre-roll-cbd" },
       { name: "Huiles CBD", href: "/catalog/huiles-cbd" },
-      { name: "Fleurs CBD", href: "/catalog/fleurs-cbd" },
-      { name: "Cosmetiques CBD", href: "/catalog/cosmetiques-cbd" },
-      { name: "Infusions CBD", href: "/catalog/infusions-cbd" },
-      { name: "Resines CBD", href: "/catalog/resines-cbd" },
-      { name: "Coffrets", href: "/catalog/coffrets" },
+      { name: "Extractions CBD", href: "/catalog/extractions-cbd" },
+      { name: "Cartridges CBD", href: "/catalog/cartridges-cbd" },
+      { name: "Edibles CBD", href: "/catalog/edibles-cbd" },
+      { name: "Cosmetique CBD", href: "/catalog/cosmetique-cbd" },
     ],
   },
   {
@@ -20,7 +23,7 @@ const defaultFooterSections: FooterSection[] = [
       { name: "Marque Blanche", href: "/marque-blanche" },
       { name: "Dropshipping CBD", href: "/dropshipping" },
       { name: "Fulfillment", href: "/fulfillment-shipping" },
-      { name: "Tarifs", href: "/pricing" },
+      { name: "Signed Label", href: "/incubateur" },
     ],
   },
   {
@@ -71,11 +74,8 @@ export function Footer({ sections, disclaimer, tagline }: FooterProps = {}) {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 mb-4 lg:mb-0">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-foreground font-bold text-lg">C</span>
-              </div>
-              <span className="text-xl font-bold tracking-tight text-white">cbd3</span>
+            <Link href="/" className="inline-block mb-4 text-white" aria-label="unsigned — accueil">
+              <Logo className="h-7 w-auto" />
             </Link>
             <p className="text-sm text-white/60 max-w-xs">{finalTagline}</p>
             <div className="flex gap-4 mt-6">
@@ -117,7 +117,7 @@ export function Footer({ sections, disclaimer, tagline }: FooterProps = {}) {
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} CBD3. Tous droits reserves. Taux THC &lt; 0.3% (EU) / &lt; 0.2% (FR).
+            &copy; {new Date().getFullYear()} Unsigned. Tous droits reserves. Taux THC &lt; 0.3% (EU) / &lt; 0.2% (FR).
           </p>
           <p className="text-xs text-white/40">{finalDisclaimer}</p>
         </div>

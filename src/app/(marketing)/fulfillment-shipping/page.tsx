@@ -54,7 +54,7 @@ const trustFeatures = [
   {
     icon: Palette,
     title: "Packaging personnalise",
-    description: "Personnalisez vos etiquettes, coffrets et emballages avec votre marque. Creez une experience client unique a chaque livraison.",
+    description: "Personnalisez vos etiquettes, packs et emballages avec votre marque. Creez une experience client unique a chaque livraison.",
   },
   {
     icon: Box,
@@ -66,7 +66,7 @@ const trustFeatures = [
 const faqs = [
   {
     q: "Quels types de produits puis-je commander via le service de fulfillment ?",
-    a: "Tous les produits CBD de notre catalogue : huiles, fleurs, cosmetiques, infusions, resines et coffrets. Chaque produit peut etre personnalise avec votre marque.",
+    a: "Tous les produits CBD de notre catalogue : fleur, hash, pre roll, huiles, extractions, cartridges, edibles et cosmetique. Chaque produit peut etre personnalise avec votre marque.",
   },
   {
     q: "Combien de temps prend le fulfillment d'une commande ?",
@@ -134,7 +134,7 @@ export default function FulfillmentShippingPage() {
       </section>
 
       {/* ==================== HOW IT WORKS ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Comment fonctionne le fulfillment
@@ -169,7 +169,7 @@ export default function FulfillmentShippingPage() {
       </section>
 
       {/* ==================== TRUST ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1]">
@@ -193,18 +193,18 @@ export default function FulfillmentShippingPage() {
       </section>
 
       {/* ==================== WHY CHOOSE US ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] mb-6">
-                Pourquoi choisir CBD3 pour votre fulfillment ?
+                Pourquoi choisir Unsigned pour votre fulfillment ?
               </h2>
               <p className="text-[16px] font-medium text-[#4d4f56] leading-[1.6] mb-6">
-                Decouvrez un service de fulfillment et d&apos;expedition fiable et fluide avec CBD3. Que vous souhaitiez expedier des huiles CBD, des cosmetiques ou des fleurs, nous assurons une livraison rapide, efficace et economique directement a vos clients.
+                Decouvrez un service de fulfillment et d&apos;expedition fiable et fluide avec Unsigned. Que vous souhaitiez expedier des huiles CBD, des cosmetiques ou des fleurs, nous assurons une livraison rapide, efficace et economique directement a vos clients.
               </p>
               <p className="text-[16px] font-medium text-[#4d4f56] leading-[1.6] mb-8">
-                Chez CBD3, nous sommes fiers de fournir le plus haut niveau de service de fulfillment. Notre equipe veille a ce que chaque commande soit traitee avec soin, de l&apos;emballage a l&apos;expedition, en garantissant la conformite EU/FR a chaque etape.
+                Chez Unsigned, nous sommes fiers de fournir le plus haut niveau de service de fulfillment. Notre equipe veille a ce que chaque commande soit traitee avec soin, de l&apos;emballage a l&apos;expedition, en garantissant la conformite EU/FR a chaque etape.
               </p>
               <div className="space-y-3">
                 {[
@@ -247,7 +247,7 @@ export default function FulfillmentShippingPage() {
       </section>
 
       {/* ==================== FAQ ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[800px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Questions frequentes

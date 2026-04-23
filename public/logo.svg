@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="currentColor">
+  <path d="M6 4 L6 50 L17 39 L24 56 L31 53 L24 36 L40 36 Z"/>
+  <text x="56" y="50" font-family="Inter, system-ui, -apple-system, 'Helvetica Neue', sans-serif" font-size="52" font-weight="900" letter-spacing="-0.05em">unsigned</text>
+  <text x="262" y="18" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="11" font-weight="700">TM</text>
+</svg>

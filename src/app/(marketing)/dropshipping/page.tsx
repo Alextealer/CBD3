@@ -70,7 +70,7 @@ const dropCons = [
 const faqs = [
   {
     q: "Comment fonctionne le dropshipping CBD ?",
-    a: "Vous vendez des produits CBD sous votre marque sur votre boutique en ligne. Quand un client commande, la commande est automatiquement transmise a CBD3 qui produit, emballe et expedie directement au client final.",
+    a: "Vous vendez des produits CBD sous votre marque sur votre boutique en ligne. Quand un client commande, la commande est automatiquement transmise a Unsigned qui produit, emballe et expedie directement au client final.",
   },
   {
     q: "Faut-il un stock initial ?",
@@ -143,7 +143,7 @@ export default function DropshippingPage() {
                     <div className="w-16 h-16 bg-green-600 rounded-xl shadow flex items-center justify-center">
                       <Truck className="h-7 w-7 text-white" />
                     </div>
-                    <span className="text-[11px] font-medium">CBD3 expedie</span>
+                    <span className="text-[11px] font-medium">Unsigned expedie</span>
                   </div>
                 </div>
               </div>
@@ -153,7 +153,7 @@ export default function DropshippingPage() {
       </section>
 
       {/* ==================== HOW IT WORKS — 4 STEPS ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Comment ca fonctionne ?
@@ -174,10 +174,10 @@ export default function DropshippingPage() {
       </section>
 
       {/* ==================== ADVANTAGES ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
-            Pourquoi le dropshipping CBD avec CBD3 ?
+            Pourquoi le dropshipping CBD avec Unsigned ?
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {advantages.map((adv) => (
@@ -192,7 +192,7 @@ export default function DropshippingPage() {
       </section>
 
       {/* ==================== PROS / CONS — DOUBLE TABLEAU ==================== */}
-      <section className="py-24 bg-[#f7f7f8]">
+      <section data-reveal className="py-24 bg-[#f7f7f8]">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Comparez les modeles
@@ -298,7 +298,7 @@ export default function DropshippingPage() {
       </section>
 
       {/* ==================== FAQ ==================== */}
-      <section className="py-24">
+      <section data-reveal className="py-24">
         <div className="max-w-[800px] mx-auto px-6 lg:px-8">
           <h2 className="text-[44px] font-medium tracking-[-0.05em] leading-[1.1] text-center mb-16">
             Questions frequentes

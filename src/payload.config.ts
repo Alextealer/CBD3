@@ -12,7 +12,10 @@ import { Products } from "./collections/Products";
 import { Tags } from "./collections/Tags";
 import { Pages } from "./collections/Pages";
 import { Navigation } from "./collections/Navigation";
+import { IncubatorApplications } from "./collections/IncubatorApplications";
 import { SiteSettings } from "./globals/SiteSettings";
+import { HomeContent } from "./globals/HomeContent";
+import { IncubatorContent } from "./globals/IncubatorContent";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -24,7 +27,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     meta: {
-      titleSuffix: "— CBD3 Admin",
+      titleSuffix: "— Unsigned Admin",
     },
   },
   collections: [
@@ -35,8 +38,9 @@ export default buildConfig({
     Tags,
     Pages,
     Navigation,
+    IncubatorApplications,
   ],
-  globals: [SiteSettings],
+  globals: [SiteSettings, HomeContent, IncubatorContent],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "dev-secret-change-me",
   typescript: {
