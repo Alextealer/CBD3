@@ -273,10 +273,18 @@ export default async function HomePage() {
             {/* Right — hero visual (takes remaining space, ~55% of grid) */}
             <div className="relative hidden lg:block">
               <div className="relative w-full aspect-square max-h-[520px] rounded-[1.5rem] overflow-hidden shadow-2xl">
-                {/* Background — real pouches image */}
+                {/* Background — hero pouch image (CMS-overridable) */}
                 <img
-                  src="/products/pouches-bg.avif"
-                  alt="Pochons CBD premium marque blanche"
+                  src={
+                    typeof heroCMS.image?.url === "string" && heroCMS.image.url
+                      ? heroCMS.image.url
+                      : "/products/hero-bag-cbd.jpg"
+                  }
+                  alt={
+                    typeof heroCMS.image?.alt === "string" && heroCMS.image.alt
+                      ? heroCMS.image.alt
+                      : "Pochon CBD premium marque blanche - Votre design"
+                  }
                   className="absolute inset-0 w-full h-full object-cover"
                 />
 

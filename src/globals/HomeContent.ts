@@ -19,6 +19,16 @@ export const HomeContent: GlobalConfig = {
         { name: "title", type: "text" },
         { name: "subtitle", type: "textarea" },
         {
+          name: "image",
+          type: "upload",
+          relationTo: "media",
+          label: "Image hero",
+          admin: {
+            description:
+              "Image principale du hero. Si vide, utilise l'image par defaut /products/pouches-bg.avif.",
+          },
+        },
+        {
           name: "features",
           type: "array",
           labels: { singular: "Feature", plural: "Features" },
