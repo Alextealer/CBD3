@@ -198,6 +198,7 @@ interface DbLink {
   href: string;
   icon?: string;
   description?: string;
+  image?: string;
 }
 
 interface HeaderProps {
@@ -226,7 +227,12 @@ export function Header({
 }: HeaderProps = {}) {
   // Merge DB with fallback: use DB if non-empty, else hardcoded
   const finalProducts = (dbProductsMenu && dbProductsMenu.length > 0)
-    ? dbProductsMenu.map((l) => ({ name: l.label, href: l.href, icon: iconMap[l.icon || ""] || Leaf }))
+    ? dbProductsMenu.map((l) => ({
+        name: l.label,
+        href: l.href,
+        icon: iconMap[l.icon || ""] || Leaf,
+        image: l.image,
+      }))
     : catalogCategories;
 
   const finalSelling = (dbSolutionsMenu && dbSolutionsMenu.length > 0)
@@ -255,7 +261,7 @@ export function Header({
 }
 
 interface HeaderInnerProps {
-  catalogCategories: Array<{ name: string; href: string; icon: React.ComponentType<{ className?: string }> }>;
+  catalogCategories: Array<{ name: string; href: string; icon: React.ComponentType<{ className?: string }>; image?: string }>;
   sellingItems: Array<{ name: string; href: string; icon: React.ComponentType<{ className?: string }> }>;
   helpItems: Array<{ name: string; href: string; icon: React.ComponentType<{ className?: string }> }>;
   banner: { enabled: boolean; text: string; linkLabel: string; linkHref: string };
@@ -440,8 +446,19 @@ function HeaderInner({
                 <div className="grid grid-cols-5 gap-5 mb-8">
                   {catalogCategories.slice(0, 5).map((cat) => (
                     <Link key={cat.href} href={cat.href} onClick={close} className="group">
-                      <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-2.5 group-hover:shadow-md transition-shadow">
-                        <cat.icon className="h-10 w-10 text-muted-foreground group-hover:text-green-600 transition-colors" />
+                      <div className="relative aspect-square bg-white rounded-2xl overflow-hidden mb-2.5 group-hover:shadow-md transition-shadow">
+                        {cat.image ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={cat.image}
+                            alt={cat.name}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <cat.icon className="h-10 w-10 text-muted-foreground group-hover:text-green-600 transition-colors" />
+                          </div>
+                        )}
                       </div>
                       <span className="text-[14px] font-medium flex items-center gap-0.5">
                         {cat.name} <ArrowRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
