@@ -26,7 +26,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ProfitCalculator } from "@/components/marketing/profit-calculator";
-import { getHomeContent } from "@/lib/payload";
+import { getCategories, getHomeContent } from "@/lib/payload";
 
 // Distinct semantic icons per feature — order-based mapping when CMS overrides
 const FEATURE_ICONS = [Leaf, Zap, TrendingUp] as const;
@@ -168,12 +168,34 @@ const faqs = [
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const cms = (await getHomeContent()) as Record<string, any> | null;
+  const [cms, cmsCategoriesRaw] = await Promise.all([
+    getHomeContent() as Promise<Record<string, any> | null>,
+    getCategories() as Promise<Record<string, any>[] | null>,
+  ]);
   const hc = cms ?? {};
   const heroCMS = hc.hero ?? {};
   const teaserCMS = hc.signedLabelTeaser ?? {};
   const logisticsCMS = hc.logistics ?? {};
   const finalCtaCMS = hc.finalCta ?? {};
+
+  // Map CMS categories → display shape; fallback to hardcoded list if CMS empty
+  const cmsCategories =
+    Array.isArray(cmsCategoriesRaw) && cmsCategoriesRaw.length > 0
+      ? cmsCategoriesRaw.slice(0, 8).map((c) => ({
+          name: typeof c.name === "string" ? c.name : "",
+          href: typeof c.slug === "string" ? `/catalog/${c.slug}` : "/catalog",
+          image:
+            typeof c.coverImage?.url === "string" && c.coverImage.url
+              ? c.coverImage.url
+              : "",
+          description:
+            typeof c.shortDescription === "string" && c.shortDescription
+              ? c.shortDescription
+              : typeof c.description === "string"
+                ? c.description.slice(0, 60)
+                : "",
+        }))
+      : categories;
 
   const cmsFeatures =
     Array.isArray(heroCMS.features) && heroCMS.features.length > 0
@@ -875,22 +897,31 @@ export default async function HomePage() {
               Voir tout <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {categories.map((cat) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+            {cmsCategories.map((cat) => (
               <Link
                 key={cat.href}
                 href={cat.href}
                 className="group relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden hover:shadow-lg transition-all"
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Leaf className="h-16 w-16 text-muted-foreground/20" />
-                </div>
+                {cat.image ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Leaf className="h-16 w-16 text-muted-foreground/20" />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 className="text-white font-medium text-[14px]">
+                  <h3 className="text-white font-semibold text-[15px]">
                     {cat.name}
                   </h3>
-                  <p className="text-white/70 text-[12px] mt-0.5">
+                  <p className="text-white/80 text-[12px] mt-0.5">
                     {cat.description}
                   </p>
                   <span className="inline-flex items-center gap-1 text-white text-[12px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
