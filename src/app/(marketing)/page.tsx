@@ -16,6 +16,8 @@ import {
   BarChart3,
   ShoppingBag,
   Globe,
+  TrendingUp,
+  Sparkles,
 } from "lucide-react";
 import {
   Accordion,
@@ -26,10 +28,12 @@ import {
 import { ProfitCalculator } from "@/components/marketing/profit-calculator";
 import { getHomeContent } from "@/lib/payload";
 
+// Distinct semantic icons per feature — order-based mapping when CMS overrides
+const FEATURE_ICONS = [Leaf, Zap, TrendingUp] as const;
 const features = [
-  { icon: Check, text: "50+ produits CBD premium" },
-  { icon: Check, text: "Mise sur le marche rapide" },
-  { icon: Check, text: "Marges elevees" },
+  { icon: FEATURE_ICONS[0], text: "50+ produits CBD premium" },
+  { icon: FEATURE_ICONS[1], text: "Mise sur le marche rapide" },
+  { icon: FEATURE_ICONS[2], text: "Marges elevees" },
 ];
 
 const categories = [
@@ -173,7 +177,10 @@ export default async function HomePage() {
 
   const cmsFeatures =
     Array.isArray(heroCMS.features) && heroCMS.features.length > 0
-      ? heroCMS.features.map((f: { text: string }) => ({ icon: Check, text: f.text }))
+      ? heroCMS.features.map((f: { text: string }, i: number) => ({
+          icon: FEATURE_ICONS[i % FEATURE_ICONS.length] ?? Sparkles,
+          text: f.text,
+        }))
       : features;
 
   const cmsUsefulLinks =
@@ -210,14 +217,20 @@ export default async function HomePage() {
                   : "Profitez de notre expertise pour creer votre marque CBD en marque blanche. Sans minimum de commande, design 100% personnalisable."}
               </p>
 
-              {/* Check features — inline like selfnamed */}
-              <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+              {/* Feature pills — semantic icon per feature, no boxy checkmarks */}
+              <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2.5">
                 {cmsFeatures.map((f: { icon: typeof Check; text: string }) => (
-                  <div key={f.text} className="flex items-center gap-2">
-                    <span className="flex h-[20px] w-[20px] items-center justify-center rounded bg-green-600">
-                      <Check className="h-3 w-3 text-white" strokeWidth={3} />
+                  <div
+                    key={f.text}
+                    className="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 ring-1 ring-green-100"
+                  >
+                    <f.icon
+                      className="h-[15px] w-[15px] text-green-700"
+                      strokeWidth={2.25}
+                    />
+                    <span className="text-[13px] font-semibold text-green-900">
+                      {f.text}
                     </span>
-                    <span className="text-[14px] font-medium">{f.text}</span>
                   </div>
                 ))}
               </div>
