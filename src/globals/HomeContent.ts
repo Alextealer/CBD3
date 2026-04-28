@@ -93,6 +93,39 @@ export const HomeContent: GlobalConfig = {
       ],
     },
 
+    // -------- INSPIRATION GALLERY --------
+    {
+      name: "inspiration",
+      type: "array",
+      label: "Galerie Inspirez-vous",
+      labels: { singular: "Inspiration", plural: "Inspirations" },
+      admin: {
+        description:
+          "Vignettes affichees dans la section 'Inspirez-vous' (max ~6). Si vide, fallback sur le set par defaut.",
+      },
+      maxRows: 8,
+      fields: [
+        { name: "label", type: "text", required: true, label: "Nom de la marque" },
+        { name: "sub", type: "text", label: "Sous-titre (categorie/baseline)" },
+        {
+          name: "image",
+          type: "upload",
+          relationTo: "media",
+          label: "Image",
+          admin: { description: "Photo packshot de la marque (optionnel — fallback bottle mockup)." },
+        },
+        {
+          name: "bg",
+          type: "text",
+          label: "Couleur de fond (Tailwind gradient)",
+          admin: {
+            description:
+              "Optionnel. Format Tailwind 'from-X to-Y' (ex: from-amber-300 to-yellow-400).",
+          },
+        },
+      ],
+    },
+
     // -------- SIGNED LABEL TEASER --------
     {
       name: "signedLabelTeaser",

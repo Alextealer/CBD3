@@ -178,6 +178,31 @@ export default async function HomePage() {
   const logisticsCMS = hc.logistics ?? {};
   const finalCtaCMS = hc.finalCta ?? {};
 
+  // Inspiration gallery — CMS array with optional image/bg, fallback to hardcoded set
+  const inspirationFallback = [
+    { bg: "from-amber-300 to-yellow-400", label: "Bloom CBD", sub: "Huiles premium", image: "" },
+    { bg: "from-stone-200 to-stone-300", label: "Herb & Co", sub: "Fleurs artisanales", image: "" },
+    { bg: "from-rose-300 to-pink-400", label: "Canna Luxe", sub: "Edibles premium", image: "" },
+    { bg: "from-amber-700 to-orange-800", label: "Terra Verde", sub: "Cosmetique CBD", image: "" },
+    { bg: "from-emerald-300 to-green-400", label: "Pure Leaf", sub: "Pre roll bio", image: "" },
+    { bg: "from-violet-300 to-purple-400", label: "Zenith CBD", sub: "Resines premium", image: "" },
+  ];
+  const inspirationCMS =
+    Array.isArray(hc.inspiration) && hc.inspiration.length > 0
+      ? hc.inspiration.map((i: Record<string, unknown>) => ({
+          label: typeof i.label === "string" ? i.label : "",
+          sub: typeof i.sub === "string" ? i.sub : "",
+          bg:
+            typeof i.bg === "string" && i.bg
+              ? i.bg
+              : "from-stone-200 to-stone-300",
+          image:
+            typeof (i.image as { url?: string } | null)?.url === "string"
+              ? ((i.image as { url?: string }).url as string)
+              : "",
+        }))
+      : inspirationFallback;
+
   // Map CMS categories → display shape; fallback to hardcoded list if CMS empty
   const cmsCategories =
     Array.isArray(cmsCategoriesRaw) && cmsCategoriesRaw.length > 0
@@ -1091,38 +1116,38 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        {/* Horizontal scroll gallery */}
+        {/* Horizontal scroll gallery — CMS-driven, image preferred over bottle mockup */}
         <div className="flex gap-5 pl-[max(1rem,calc((100vw-1240px)/2+1rem))] pr-8 overflow-x-auto scrollbar-hide pb-4">
-          {[
-            { bg: "from-amber-300 to-yellow-400", label: "Bloom CBD", sub: "Huiles premium" },
-            { bg: "from-stone-200 to-stone-300", label: "Herb & Co", sub: "Fleurs artisanales" },
-            { bg: "from-rose-300 to-pink-400", label: "Canna Luxe", sub: "Edibles premium" },
-            { bg: "from-amber-700 to-orange-800", label: "Terra Verde", sub: "Cosmetique CBD" },
-            { bg: "from-emerald-300 to-green-400", label: "Pure Leaf", sub: "Pre roll bio" },
-            { bg: "from-violet-300 to-purple-400", label: "Zenith CBD", sub: "Resines premium" },
-          ].map((item) => (
+          {inspirationCMS.map((item) => (
             <div
               key={item.label}
               className={`shrink-0 w-[300px] aspect-[3/4] rounded-2xl bg-gradient-to-br ${item.bg} relative overflow-hidden group cursor-pointer`}
             >
-              {/* Product mockup */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative">
-                  {/* Bottle */}
-                  <div className="w-16 h-28 bg-white/90 rounded-lg shadow-lg mx-auto" />
-                  <div className="w-8 h-4 bg-white/70 rounded-t-md mx-auto -mt-0.5" />
-                  {/* Label */}
-                  <div className="absolute top-6 left-1/2 -translate-x-1/2 w-12 h-14 bg-white rounded-sm flex items-center justify-center">
-                    <span className="text-[6px] font-bold text-center leading-tight text-stone-600">
-                      {item.label}
-                    </span>
+              {item.image ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={item.image}
+                  alt={item.label}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                /* Fallback — bottle mockup when no CMS image is uploaded */
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative">
+                    <div className="w-16 h-28 bg-white/90 rounded-lg shadow-lg mx-auto" />
+                    <div className="w-8 h-4 bg-white/70 rounded-t-md mx-auto -mt-0.5" />
+                    <div className="absolute top-6 left-1/2 -translate-x-1/2 w-12 h-14 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-[6px] font-bold text-center leading-tight text-stone-600">
+                        {item.label}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* Brand overlay on hover */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              )}
+              {/* Brand overlay — always visible at bottom */}
+              <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                 <p className="text-white text-[14px] font-semibold">{item.label}</p>
-                <p className="text-white/70 text-[12px]">{item.sub}</p>
+                <p className="text-white/80 text-[12px]">{item.sub}</p>
               </div>
             </div>
           ))}
