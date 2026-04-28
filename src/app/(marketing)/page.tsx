@@ -902,21 +902,21 @@ export default async function HomePage() {
               <Link
                 key={cat.href}
                 href={cat.href}
-                className="group relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden hover:shadow-lg transition-all"
+                className="group relative aspect-[3/4] bg-[#f0ece6] rounded-2xl overflow-hidden hover:shadow-lg transition-all"
               >
                 {cat.image ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={cat.image}
                     alt={cat.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Leaf className="h-16 w-16 text-muted-foreground/20" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <h3 className="text-white font-semibold text-[15px]">
                     {cat.name}
