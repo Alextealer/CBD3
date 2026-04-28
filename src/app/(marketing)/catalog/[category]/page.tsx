@@ -113,14 +113,22 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const fallback = categoriesData[category];
   if (!dbCategory && !fallback) notFound();
 
-  const categoryName = dbCategory?.name || fallback.name;
-  const categoryDescription = dbCategory?.description || fallback.description;
+  const categoryName =
+    (typeof dbCategory?.name === "string" && dbCategory.name) ||
+    fallback?.name ||
+    "";
+  const categoryDescription =
+    (typeof dbCategory?.description === "string" && dbCategory.description) ||
+    fallback?.description ||
+    "";
   const products: Product[] = dbProducts.length > 0
     ? dbProducts.map(mapDbProduct)
     : fallback?.products || [];
 
-  // CMS-first: read editorial fields from the Categories doc, fallback to hardcoded.
-  const fb = categoryContent[category];
+  // CMS-first editorial: each field falls back to hardcoded set when CMS is empty,
+  // and to nothing when the slug has no hardcoded entry. Sections render only if
+  // their data exists, so new categories don't break.
+  const fb = categoryContent[category]; // may be undefined for new slugs
   const cms = (dbCategory ?? {}) as Record<string, unknown>;
   const arr = <T,>(key: string): T[] | undefined => {
     const v = cms[key];
@@ -131,18 +139,22 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     return typeof v === "string" && v.trim() ? v : undefined;
   };
 
-  const content = fb
-    ? {
-        tagline: str("tagline") ?? fb.tagline,
-        intro: arr<{ text: string }>("intro")?.map((p) => p.text) ?? fb.intro,
-        highlights: arr<{ title: string; body: string }>("highlights") ?? fb.highlights,
-        formats: arr<{ label: string; body: string }>("formats") ?? fb.formats,
-        customization:
-          arr<{ text: string }>("customization")?.map((c) => c.text) ?? fb.customization,
-        audience: arr<{ title: string; body: string }>("audience") ?? fb.audience,
-        faqs: arr<{ q: string; a: string }>("faqs") ?? fb.faqs,
-      }
-    : null;
+  const content = {
+    tagline: str("tagline") ?? fb?.tagline ?? "",
+    intro:
+      arr<{ text: string }>("intro")?.map((p) => p.text) ?? fb?.intro ?? [],
+    highlights:
+      arr<{ title: string; body: string }>("highlights") ?? fb?.highlights ?? [],
+    formats:
+      arr<{ label: string; body: string }>("formats") ?? fb?.formats ?? [],
+    customization:
+      arr<{ text: string }>("customization")?.map((c) => c.text) ??
+      fb?.customization ??
+      [],
+    audience:
+      arr<{ title: string; body: string }>("audience") ?? fb?.audience ?? [],
+    faqs: arr<{ q: string; a: string }>("faqs") ?? fb?.faqs ?? [],
+  };
   const Icon = iconMap[category] ?? Leaf;
   const accent = accentMap[category] ?? "from-stone-100 to-stone-200";
 
@@ -169,7 +181,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 <h1 className="text-[44px] sm:text-[56px] lg:text-[72px] font-medium tracking-[-0.05em] leading-[1.05]">
                   {categoryName}
                 </h1>
-                {content && (
+                {content.tagline && (
                   <p className="mt-6 text-[16px] sm:text-[18px] font-medium text-white/70 leading-[1.6] max-w-[540px]">
                     {content.tagline}
                   </p>
@@ -221,7 +233,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </section>
 
       {/* ==================== INTRO / EDITORIAL ==================== */}
-      {content && (
+      {content.intro.length > 0 && (
         <section className="py-24 lg:py-28">
           <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
             <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-24">
@@ -244,7 +256,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       )}
 
       {/* ==================== HIGHLIGHTS ==================== */}
-      {content && (
+      {content.highlights.length > 0 && (
         <section className="py-24 lg:py-28 bg-[#f7f7f8]">
           <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
             <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-24 mb-16">
@@ -284,12 +296,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </section>
 
       {/* ==================== FORMATS & CUSTOMIZATION ==================== */}
-      {content && (
+      {(content.formats.length > 0 || content.customization.length > 0) && (
         <section className="py-24 lg:py-28">
           <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+            <div className={`grid gap-12 lg:gap-16 ${content.formats.length > 0 && content.customization.length > 0 ? "lg:grid-cols-2" : ""}`}>
               {/* Formats */}
-              <div>
+              {content.formats.length > 0 && <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-6">
                   Formats disponibles
                 </p>
@@ -312,10 +324,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div>}
 
               {/* Customization */}
-              <div>
+              {content.customization.length > 0 && <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-6">
                   Personnalisation
                 </p>
@@ -340,14 +352,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     </Button>
                   </Link>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         </section>
       )}
 
       {/* ==================== AUDIENCE ==================== */}
-      {content && (
+      {content.audience.length > 0 && (
         <section className="py-24 lg:py-28 bg-[#f7f7f8]">
           <div className="max-w-[1240px] mx-auto px-6 lg:px-8">
             <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-24 mb-16">
@@ -398,7 +410,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </section>
 
       {/* ==================== FAQ ==================== */}
-      {content && content.faqs.length > 0 && (
+      {content.faqs.length > 0 && (
         <section className="py-24 lg:py-28 bg-[#f7f7f8]">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-foreground/50 mb-6 text-center">
