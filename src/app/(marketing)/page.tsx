@@ -944,13 +944,17 @@ export default async function HomePage() {
                         cat.hoverImage ? "group-hover:opacity-0" : ""
                       }`}
                     />
-                    {/* Hover image — only rendered when uploaded */}
+                    {/* Hover image — only rendered when uploaded.
+                        Cosmetiques hover photo is shot tighter, so we dial the
+                        zoom back 5% to avoid cropping the product. */}
                     {cat.hoverImage && (
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={cat.hoverImage}
                         alt={`${cat.name} alternative`}
-                        className="absolute inset-0 w-full h-full object-cover scale-120 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                        className={`absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 ${
+                          cat.href === "/catalog/cosmetiques-cbd" ? "scale-115" : "scale-120"
+                        }`}
                       />
                     )}
                   </>
