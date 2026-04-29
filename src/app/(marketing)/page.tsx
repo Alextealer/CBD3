@@ -935,12 +935,12 @@ export default async function HomePage() {
               >
                 {cat.image ? (
                   <>
-                    {/* Default image — fills the card edge to edge */}
+                    {/* Default image — slight scale so the product fills more of the card */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={cat.image}
                       alt={cat.name}
-                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                      className={`absolute inset-0 w-full h-full object-cover scale-115 transition-opacity duration-500 ${
                         cat.hoverImage ? "group-hover:opacity-0" : ""
                       }`}
                     />
@@ -950,7 +950,7 @@ export default async function HomePage() {
                       <img
                         src={cat.hoverImage}
                         alt={`${cat.name} alternative`}
-                        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                        className="absolute inset-0 w-full h-full object-cover scale-115 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                       />
                     )}
                   </>
