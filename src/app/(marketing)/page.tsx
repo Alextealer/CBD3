@@ -940,7 +940,7 @@ export default async function HomePage() {
                     <img
                       src={cat.image}
                       alt={cat.name}
-                      className={`absolute inset-0 w-full h-full object-cover scale-115 transition-opacity duration-500 ${
+                      className={`absolute inset-0 w-full h-full object-cover scale-120 transition-opacity duration-500 ${
                         cat.hoverImage ? "group-hover:opacity-0" : ""
                       }`}
                     />
@@ -950,7 +950,7 @@ export default async function HomePage() {
                       <img
                         src={cat.hoverImage}
                         alt={`${cat.name} alternative`}
-                        className="absolute inset-0 w-full h-full object-cover scale-115 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                        className="absolute inset-0 w-full h-full object-cover scale-120 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                       />
                     )}
                   </>
