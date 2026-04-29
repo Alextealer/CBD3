@@ -69,6 +69,18 @@ export const Categories: CollectionConfig = {
       name: "coverImage",
       type: "upload",
       relationTo: "media",
+      label: "Image principale",
+      admin: { description: "Image affichée par défaut sur la home." },
+    },
+    {
+      name: "hoverImage",
+      type: "upload",
+      relationTo: "media",
+      label: "Image au survol",
+      admin: {
+        description:
+          "Image affichée au survol (hover) sur la home. Si vide, la principale reste affichée.",
+      },
     },
     {
       name: "order",

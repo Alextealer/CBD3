@@ -213,6 +213,10 @@ export default async function HomePage() {
             typeof c.coverImage?.url === "string" && c.coverImage.url
               ? c.coverImage.url
               : "",
+          hoverImage:
+            typeof c.hoverImage?.url === "string" && c.hoverImage.url
+              ? c.hoverImage.url
+              : "",
           description:
             typeof c.shortDescription === "string" && c.shortDescription
               ? c.shortDescription
@@ -220,7 +224,7 @@ export default async function HomePage() {
                 ? c.description.slice(0, 60)
                 : "",
         }))
-      : categories;
+      : categories.map((c) => ({ ...c, hoverImage: "" }));
 
   const cmsFeatures =
     Array.isArray(heroCMS.features) && heroCMS.features.length > 0
@@ -930,19 +934,33 @@ export default async function HomePage() {
                 className="group relative aspect-[3/4] bg-[#f0ece6] rounded-2xl overflow-hidden hover:shadow-lg transition-all"
               >
                 {cat.image ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="absolute inset-0 w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                  />
+                  <>
+                    {/* Default image */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
+                        cat.hoverImage ? "group-hover:opacity-0" : ""
+                      }`}
+                    />
+                    {/* Hover image — only rendered when uploaded */}
+                    {cat.hoverImage && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={cat.hoverImage}
+                        alt={`${cat.name} alternative`}
+                        className="absolute inset-0 w-full h-full object-contain opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                      />
+                    )}
+                  </>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Leaf className="h-16 w-16 text-muted-foreground/20" />
                   </div>
                 )}
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
                   <h3 className="text-white font-semibold text-[15px]">
                     {cat.name}
                   </h3>
